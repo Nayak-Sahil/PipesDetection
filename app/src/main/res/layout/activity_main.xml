@@ -1,19 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/white">
+
+<!--https://m2.material.io/components/buttons/android#outlined-button-->
+
+    <LinearLayout
+        android:id="@+id/appTitle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp">
+
+        <ImageView
+            android:id="@+id/appLogo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/logo"/>
+
+        <TextView
+            android:id="@+id/appName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:layout_gravity="center_vertical"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:textSize="20sp"/>
+    </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/appQuote"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_below="@id/appTitle"
+        android:layout_alignLeft="@id/appTitle"
+        android:layout_marginLeft="3dp"
+        android:textStyle="bold"
+        android:text="@string/app_quote"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/recentLayer"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/appQuote"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/layoutborder">
+
+        <TextView
+            android:id="@+id/badge"
+            android:background="@drawable/badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="Recent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/recentCountLbl"
+            android:textStyle="bold"
+            android:text="Last Pipes Count"
+            android:textColor="@color/primary"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/recentCountLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="250"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/pipes_truck_1" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/historyLayer"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/recentLayer"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/layoutborder">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textStyle="bold"
+            android:text="You can view your all past data." />
+
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="@color/primary"
+            app:rippleColor="#17B5B5B5"
+            android:textSize="12sp"
+            android:text="View History"/>
+
+        <TextView
+            android:id="@+id/historyCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20+"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/takeImageLayer"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/historyLayer"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/layoutborder">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/pipes_camera"/>
+
+        <LinearLayout
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="150dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_above="@id/takeImageBtn"
+                android:layout_marginBottom="11dp"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="Capture images directly using the camera" />
+
+            <Button
+                android:id="@+id/takeImageBtn"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/primary"
+                style="?attr/materialButtonOutlinedStyle"
+                app:strokeColor="@color/primary"
+                app:rippleColor="#17CACACA"
+                app:strokeWidth="2dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:text="Take Photo"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/takeImageLayer"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/layoutborder">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/gallery_illustration"/>
+
+        <LinearLayout
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_width="150dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_above="@id/takeImageBtn"
+                android:layout_marginBottom="10dp"
+                android:textStyle="bold"
+                android:textSize="11sp"
+                android:textAlignment="center"
+                android:text="Choose images directly from the gallery" />
+
+            <Button
+                android:id="@+id/chooseImageBtn"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/primary"
+                style="?attr/materialButtonOutlinedStyle"
+                app:strokeColor="@color/primary"
+                app:rippleColor="#17CACACA"
+                app:strokeWidth="2dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:text="Choose Images"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>
