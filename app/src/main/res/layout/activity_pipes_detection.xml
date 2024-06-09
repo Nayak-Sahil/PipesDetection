@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".PipesDetection">
+
+    <LinearLayout
+        android:id="@+id/activityTitle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/detection_icon"/>
+
+        <TextView
+            android:id="@+id/activityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detection_activity_name"
+            android:layout_gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="#202020"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/insightLayer"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/activityTitle"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/layoutborder">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_badge"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="18dp"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/focus_img" />
+            <TextView
+                android:id="@+id/retakeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#202020"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:text="Retake"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/recentCountLbl"
+            android:textStyle="bold"
+            android:text="Detected Count"
+            android:textColor="@color/primary"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/recentCountLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="250"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true"/>
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_alignParentRight="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginRight="5dp"
+                    android:rotation="45"
+                    android:src="@drawable/pipe_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/recentCountLbl"
+                    android:textStyle="bold"
+                    android:layout_marginRight="8dp"
+                    android:text="Name: "
+                    android:textSize="12sp"
+                    android:textColor="#202020"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/recentCountLbl"
+                    android:textStyle="bold"
+                    android:text="DOPIPES001"
+                    android:textSize="12sp"
+                    android:textColor="#616161"
+                    android:layout_centerVertical="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/calendar_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/recentCountLbl"
+                    android:textStyle="bold"
+                    android:layout_marginRight="8dp"
+                    android:text="Data: "
+                    android:textSize="12sp"
+                    android:textColor="#202020"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/recentCountLbl"
+                    android:textStyle="bold"
+                    android:text="9 March 2022"
+                    android:textSize="12sp"
+                    android:textColor="#616161"
+                    android:layout_centerVertical="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/clock_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/recentCountLbl"
+                    android:textStyle="bold"
+                    android:layout_marginRight="8dp"
+                    android:text="Time: "
+                    android:textSize="12sp"
+                    android:textColor="#202020"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/recentCountLbl"
+                    android:textStyle="bold"
+                    android:text="9:00 A.M."
+                    android:textSize="12sp"
+                    android:textColor="#616161"
+                    android:layout_centerVertical="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/note_pen_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/recentCountLbl"
+                    android:textStyle="bold"
+                    android:layout_marginRight="8dp"
+                    android:text="Add Note"
+                    android:textSize="12sp"
+                    android:textColor="#202020"
+                    android:layout_centerVertical="true"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@+id/insightLayer"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/layoutborder"
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/imgView"/>
+
+</RelativeLayout>
