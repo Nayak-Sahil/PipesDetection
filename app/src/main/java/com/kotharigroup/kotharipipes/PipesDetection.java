@@ -1,8 +1,10 @@
 package com.kotharigroup.kotharipipes;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +27,14 @@ public class PipesDetection extends AppCompatActivity {
         });
 
         imgView = findViewById(R.id.imgView);
-        Bitmap img = getIntent().getParcelableExtra("pipes_img");
-        imgView.setImageBitmap(img);
+
+        try{
+            Uri uri = getIntent().getParcelableExtra("pipes_uri");
+            Bitmap img = getIntent().getParcelableExtra("pipes_img");
+            if(img != null) imgView.setImageBitmap(img);
+            if(uri != null) imgView.setImageURI(uri);
+        }catch(Exception e){
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

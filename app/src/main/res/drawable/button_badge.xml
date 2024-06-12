@@ -9,8 +9,8 @@
         android:top="5dp"
         android:bottom="5dp"/>
     <stroke
-        android:width="2dp"
-        android:color="#202020"/>
+        android:width="1.5dp"
+        android:color="@color/primary_text"/>
     <solid
         android:color="@color/white"/>
 </shape>

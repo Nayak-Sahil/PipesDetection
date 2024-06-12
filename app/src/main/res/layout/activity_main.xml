@@ -89,7 +89,7 @@
             android:layout_height="100dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/pipes_truck_1" />
+            android:src="@drawable/pipes_truck" />
 
         <ImageButton
             android:id="@+id/optionBtn"
@@ -158,7 +158,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/pipes_camera"/>
+            android:src="@drawable/pipes_camera_1"/>
 
         <LinearLayout
             android:layout_alignParentRight="true"

@@ -16,12 +16,12 @@
         android:layout_marginLeft="20dp">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_alignParentLeft="true"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/detection_icon"/>
+            android:layout_marginRight="8dp"
+            android:src="@drawable/logo"/>
 
         <TextView
             android:id="@+id/activityName"
@@ -30,7 +30,7 @@
             android:text="@string/detection_activity_name"
             android:layout_gravity="center_vertical"
             android:textStyle="bold"
-            android:textColor="#202020"
+            android:textColor="@color/primary"
             android:textSize="20sp"/>
     </LinearLayout>
 
@@ -52,29 +52,45 @@
             android:paddingVertical="10dp"
             android:paddingHorizontal="18dp"
             android:gravity="center">
+
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginRight="5dp"
                 android:src="@drawable/focus_img" />
+
             <TextView
                 android:id="@+id/retakeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#202020"
+                android:textColor="@color/primary_text"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:text="Retake"/>
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_above="@id/recentCountLbl"
-            android:textStyle="bold"
-            android:text="Detected Count"
-            android:textColor="@color/primary"
-            android:layout_centerVertical="true"/>
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/sparkles" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Pipes Found"
+                android:textSize="13sp"
+                android:textColor="@color/primary"
+                android:layout_centerVertical="true"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/recentCountLbl"
@@ -86,7 +102,7 @@
             android:layout_alignParentBottom="true"/>
 
         <LinearLayout
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
@@ -111,10 +127,10 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginRight="4dp"
                     android:text="Name: "
                     android:textSize="12sp"
-                    android:textColor="#202020"
+                    android:textColor="@color/primary_text"
                     android:layout_centerVertical="true"/>
 
                 <TextView
@@ -124,7 +140,7 @@
                     android:textStyle="bold"
                     android:text="DOPIPES001"
                     android:textSize="12sp"
-                    android:textColor="#616161"
+                    android:textColor="@color/secondary_text"
                     android:layout_centerVertical="true"/>
 
             </LinearLayout>
@@ -147,10 +163,10 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginRight="4dp"
                     android:text="Data: "
                     android:textSize="12sp"
-                    android:textColor="#202020"
+                    android:textColor="@color/primary_text"
                     android:layout_centerVertical="true"/>
 
                 <TextView
@@ -160,7 +176,7 @@
                     android:textStyle="bold"
                     android:text="9 March 2022"
                     android:textSize="12sp"
-                    android:textColor="#616161"
+                    android:textColor="@color/secondary_text"
                     android:layout_centerVertical="true"/>
 
             </LinearLayout>
@@ -183,10 +199,10 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginRight="4dp"
                     android:text="Time: "
                     android:textSize="12sp"
-                    android:textColor="#202020"
+                    android:textColor="@color/primary_text"
                     android:layout_centerVertical="true"/>
 
                 <TextView
@@ -196,7 +212,7 @@
                     android:textStyle="bold"
                     android:text="9:00 A.M."
                     android:textSize="12sp"
-                    android:textColor="#616161"
+                    android:textColor="@color/secondary_text"
                     android:layout_centerVertical="true"/>
 
             </LinearLayout>
@@ -219,10 +235,9 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:layout_marginRight="8dp"
-                    android:text="Add Note"
+                    android:text="Add Note ?"
                     android:textSize="12sp"
-                    android:textColor="#202020"
+                    android:textColor="@color/primary_text"
                     android:layout_centerVertical="true"/>
 
             </LinearLayout>

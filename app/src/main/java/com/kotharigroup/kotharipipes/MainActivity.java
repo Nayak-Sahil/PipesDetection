@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         optionBtn.setOnCreateContextMenuListener(this);
 
-        ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        ActivityResultLauncher<Intent> takeImagelauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult o) {
                 if (o.getResultCode() == Activity.RESULT_OK) {
@@ -68,12 +68,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ActivityResultLauncher<Intent> chooseImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult o) {
+                if (o.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = o.getData();
+                    Intent detectionIntent = new Intent(getApplicationContext(), PipesDetection.class);
+                    detectionIntent.putExtra("pipes_uri", data.getData());
+                    startActivity(detectionIntent);
+                }
+            }
+        });
+
         takePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent cameraI = new Intent();
                 cameraI.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                launcher.launch(cameraI);
+                takeImagelauncher.launch(cameraI);
+            }
+        });
+
+        chooseImgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cameraI = new Intent();
+                cameraI.setAction(MediaStore.ACTION_PICK_IMAGES);
+                chooseImageLauncher.launch(cameraI);
             }
         });
 
