@@ -200,7 +200,7 @@
                 style="?attr/materialButtonOutlinedStyle"
                 app:strokeColor="@color/primary"
                 app:rippleColor="#17CACACA"
-                app:strokeWidth="2dp"
+                android:strokeWidth="1"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:text="Take Photo"/>
@@ -252,7 +252,7 @@
                 style="?attr/materialButtonOutlinedStyle"
                 app:strokeColor="@color/primary"
                 app:rippleColor="#17CACACA"
-                app:strokeWidth="2dp"
+                android:strokeWidth="1"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:text="Choose Images"/>

@@ -1,12 +1,17 @@
 package com.kotharigroup.kotharipipes;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -28,6 +33,9 @@ public class PipesDetection extends AppCompatActivity {
     Boolean isFromCapture;
     ActivityResultLauncher<Intent> launcher;
     Intent retakeIntent;
+    Button cancelDialogBtn, analyzeDialogBtn;
+    EditText innerPipesInptDialog;
+    int innerPipesCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +50,35 @@ public class PipesDetection extends AppCompatActivity {
         imgView = findViewById(R.id.imgView);
         reTakeBtn = findViewById(R.id.reTakeBtn);
         retakeIntent = new Intent();
+
+        Dialog inptDialog = new Dialog(PipesDetection.this);
+        inptDialog.setContentView(R.layout.dialog);
+        inptDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        try{
+            inptDialog.show();
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+            Log.d("error", e.toString());
+        }
+
+        cancelDialogBtn = inptDialog.findViewById(R.id.cancelDialogBtn);
+        analyzeDialogBtn = inptDialog.findViewById(R.id.analyzeDialogBtn);
+        innerPipesInptDialog = inptDialog.findViewById(R.id.innerPipesInptDialog);
+        cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inptDialog.dismiss();
+            }
+        });
+
+        analyzeDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                innerPipesCount = Integer.parseInt(innerPipesInptDialog.getText().toString());
+                inptDialog.dismiss();
+            }
+        });
 
         // Taking image from intent data.
         try{
