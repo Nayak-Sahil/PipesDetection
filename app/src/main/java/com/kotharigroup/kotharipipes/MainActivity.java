@@ -1,5 +1,6 @@
 package com.kotharigroup.kotharipipes;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,6 +26,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class MainActivity extends AppCompatActivity {
 
     ImageButton optionBtn;
@@ -47,13 +59,11 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        optionBtn = findViewById(R.id.optionBtn);
 
         viewHistoryBtn = findViewById(R.id.viewHistoryBtn);
         takePhotoBtn = findViewById(R.id.takePhotoBtn);
         chooseImgBtn = findViewById(R.id.chooseImageBtn);
 
-        optionBtn.setOnCreateContextMenuListener(this);
 
         ActivityResultLauncher<Intent> takeImagelauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
@@ -100,9 +110,45 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        getMenuInflater().inflate(R.menu.context_menu, menu);
-        super.onCreateContextMenu(menu, v, menuInfo);
+    protected static void sendPostRequest(Bitmap img){
+
+        OkHttpClient client = new OkHttpClient();
+
+        // Create request body for file
+//        RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), img);
+
+        // Create multipart body
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+//                .addFormDataPart("file", fileBody)
+                .addFormDataPart("date", "25-5-2020")
+                .build();
+
+        // Create request
+        Request request = new Request.Builder()
+                .url("http://localhost/upload")
+                .post(requestBody)
+                .build();
+
+        // Execute request
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // Handle failure
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    // Handle success
+                    String responseData = response.body().string();
+                    System.out.println("Response: " + responseData);
+                } else {
+                    // Handle error
+                    System.out.println("Error: " + response.message());
+                }
+            }
+        });
     }
 }

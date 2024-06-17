@@ -4,5 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#025da5</color>
     <color name="primary_text">#202020</color>
-    <color name="secondary_text">#616161</color>
+    <color name="secondary_text">#777777</color>
+    <color name="secondary">#3F8295</color>
+    <color name="warning">#FF5A4D</color>
 </resources>

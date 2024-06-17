@@ -21,7 +21,7 @@
             android:layout_gravity="center_vertical"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/logo"/>
+            android:src="@drawable/detection_icon"/>
 
         <TextView
             android:id="@+id/activityName"
@@ -30,7 +30,7 @@
             android:text="@string/detection_activity_name"
             android:layout_gravity="center_vertical"
             android:textStyle="bold"
-            android:textColor="@color/primary"
+            android:textColor="@color/secondary"
             android:textSize="20sp"/>
     </LinearLayout>
 
@@ -45,6 +45,7 @@
         android:background="@drawable/layoutborder">
 
         <LinearLayout
+            android:id="@+id/reTakeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_badge"
@@ -76,19 +77,19 @@
             android:layout_above="@id/recentCountLbl"
             android:gravity="center">
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/sparkles" />
+<!--            <ImageView-->
+<!--                android:layout_width="20dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:layout_marginRight="5dp"-->
+<!--                android:src="@drawable/sparkles" />-->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="Pipes Found"
+                android:text="Total Pipes Found"
                 android:textSize="13sp"
-                android:textColor="@color/primary"
+                android:textColor="@color/secondary"
                 android:layout_centerVertical="true"/>
         </LinearLayout>
 
@@ -99,6 +100,7 @@
             android:text="250"
             android:textSize="45sp"
             android:textStyle="bold"
+            android:layout_marginBottom="-10dp"
             android:layout_alignParentBottom="true"/>
 
         <LinearLayout
@@ -119,8 +121,7 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_marginRight="5dp"
-                    android:rotation="45"
-                    android:src="@drawable/pipe_icon" />
+                    android:src="@drawable/pipes_package" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -228,6 +229,42 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_marginRight="5dp"
+                    android:src="@drawable/inner_pipes" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/recentCountLbl"
+                    android:textStyle="bold"
+                    android:text="Inner Pipes:"
+                    android:textSize="12sp"
+                    android:layout_marginRight="4dp"
+                    android:textColor="@color/primary_text"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/recentCountLbl"
+                    android:textStyle="bold"
+                    android:text="3"
+                    android:textSize="12sp"
+                    android:textColor="@color/secondary_text"
+                    android:layout_centerVertical="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginRight="5dp"
                     android:src="@drawable/note_pen_icon" />
 
                 <TextView
@@ -235,23 +272,87 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:text="Add Note ?"
+                    android:text="Edit Inner Pipes"
                     android:textSize="12sp"
-                    android:textColor="@color/primary_text"
+                    android:layout_marginRight="4dp"
+                    android:textColor="@color/secondary"
                     android:layout_centerVertical="true"/>
 
             </LinearLayout>
+
         </LinearLayout>
 
     </RelativeLayout>
 
-    <ImageView
+
+    <LinearLayout
+        android:id="@+id/correctBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_warning"
+        android:orientation="horizontal"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="18dp"
+        android:layout_alignRight="@id/detectedImgLayer"
+        android:layout_above="@id/detectedImgLayer"
+        android:layout_marginBottom="-15dp"
+        android:layout_marginRight="15dp"
+        android:translationZ="5dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/warning"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="Wrong?"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/success_badge"
+        android:orientation="horizontal"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="18dp"
+        android:layout_alignLeft="@id/detectedImgLayer"
+        android:layout_above="@id/detectedImgLayer"
+        android:layout_marginBottom="-15dp"
+        android:layout_marginLeft="15dp"
+        android:translationZ="5dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/sparkles" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="99 Outer Pipes"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/detectedImgLayer"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_below="@+id/insightLayer"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/layoutborder"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
         android:layout_marginHorizontal="20dp"
-        android:id="@+id/imgView"/>
+        android:paddingTop="40dp"
+        android:background="@drawable/layoutborder">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imgView"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

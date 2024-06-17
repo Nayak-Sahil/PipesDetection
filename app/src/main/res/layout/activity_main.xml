@@ -67,6 +67,7 @@
             android:text="Recent"/>
 
         <TextView
+            android:id="@+id/countTitleLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/recentCountLbl"
@@ -74,6 +75,16 @@
             android:text="Last Pipes Count"
             android:textColor="@color/primary"
             android:layout_centerVertical="true"/>
+
+        <ImageButton
+            android:id="@+id/refreshBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/countTitleLbl"
+            android:layout_alignRight="@+id/countTitleLbl"
+            android:background="@color/white"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/refresh_icon" />
 
         <TextView
             android:id="@+id/recentCountLbl"
@@ -89,16 +100,16 @@
             android:layout_height="100dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/pipes_truck" />
+            android:src="@drawable/pipes_truck_1" />
 
         <ImageButton
-            android:id="@+id/optionBtn"
+            android:id="@+id/openBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:background="@color/white"
-            android:src="@drawable/option_icon" />
+            android:src="@drawable/open_icon" />
 
     </RelativeLayout>
 
