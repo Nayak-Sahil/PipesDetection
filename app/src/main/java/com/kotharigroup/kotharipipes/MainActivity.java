@@ -64,6 +64,13 @@ public class MainActivity extends AppCompatActivity {
         takePhotoBtn = findViewById(R.id.takePhotoBtn);
         chooseImgBtn = findViewById(R.id.chooseImageBtn);
 
+        viewHistoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent HistoryIntent = new Intent(MainActivity.this, History.class);
+                startActivity(HistoryIntent);
+            }
+        });
 
         ActivityResultLauncher<Intent> takeImagelauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
