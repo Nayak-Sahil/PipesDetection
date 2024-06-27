@@ -171,11 +171,12 @@
                     android:layout_centerVertical="true"/>
 
                 <TextView
+                    android:id="@+id/insightDateLbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:text="9 March 2022"
+                    android:text="-"
                     android:textSize="12sp"
                     android:textColor="@color/secondary_text"
                     android:layout_centerVertical="true"/>
@@ -207,11 +208,12 @@
                     android:layout_centerVertical="true"/>
 
                 <TextView
+                    android:id="@+id/insightTimeLbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:text="9:00 A.M."
+                    android:text="-"
                     android:textSize="12sp"
                     android:textColor="@color/secondary_text"
                     android:layout_centerVertical="true"/>

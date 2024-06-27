@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -27,6 +28,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class PipesDetection extends AppCompatActivity {
 
     ImageView imgView;
@@ -36,9 +42,12 @@ public class PipesDetection extends AppCompatActivity {
     Intent retakeIntent;
     Button cancelDialogBtn, analyzeDialogBtn;
     EditText innerPipesInptDialog;
-    TextView innerPipesCountLbl;
+    TextView innerPipesCountLbl, insightDateLbl, insightTimeLbl;
     int innerPipesCount = 0;
     Dialog inptDialog;
+    String dateNow = "", timeNow = "";
+    private String prefixInsightId = "KTHPIPES";
+    DBHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +58,18 @@ public class PipesDetection extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        dbHelper = new DBHelper(getApplicationContext(), null, null, 1);
+
+
+        insightDateLbl = findViewById(R.id.insightDateLbl);
+        insightTimeLbl = findViewById(R.id.insightTimeLbl);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dateNow = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMMM, YYYY")).toString();
+            timeNow = LocalTime.now().format(DateTimeFormatter.ofPattern("HH : mm a")).toString().toUpperCase();
+            insightDateLbl.setText(dateNow);
+            insightTimeLbl.setText(timeNow);
+        }
 
         imgView = findViewById(R.id.imgView);
         reTakeBtn = findViewById(R.id.reTakeBtn);
@@ -129,6 +150,7 @@ public class PipesDetection extends AppCompatActivity {
         reTakeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                 launcher.launch(retakeIntent);
             }
         });
