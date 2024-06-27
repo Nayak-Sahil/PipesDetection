@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -29,13 +30,15 @@ import androidx.core.view.WindowInsetsCompat;
 public class PipesDetection extends AppCompatActivity {
 
     ImageView imgView;
-    LinearLayout reTakeBtn;
+    LinearLayout reTakeBtn, editInnerPipesBtn;
     Boolean isFromCapture;
     ActivityResultLauncher<Intent> launcher;
     Intent retakeIntent;
     Button cancelDialogBtn, analyzeDialogBtn;
     EditText innerPipesInptDialog;
-    int innerPipesCount;
+    TextView innerPipesCountLbl;
+    int innerPipesCount = 0;
+    Dialog inptDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,16 +54,20 @@ public class PipesDetection extends AppCompatActivity {
         reTakeBtn = findViewById(R.id.reTakeBtn);
         retakeIntent = new Intent();
 
-        Dialog inptDialog = new Dialog(PipesDetection.this);
+        editInnerPipesBtn = findViewById(R.id.editInnerPipesBtn);
+        innerPipesCountLbl = findViewById(R.id.innerPipesCountLbl);
+        editInnerPipesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEditInnerPipesDialog();
+            }
+        });
+
+        inptDialog = new Dialog(PipesDetection.this);
         inptDialog.setContentView(R.layout.dialog);
         inptDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        showEditInnerPipesDialog();
 
-        try{
-            inptDialog.show();
-        }catch(Exception e){
-            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-            Log.d("error", e.toString());
-        }
 
         cancelDialogBtn = inptDialog.findViewById(R.id.cancelDialogBtn);
         analyzeDialogBtn = inptDialog.findViewById(R.id.analyzeDialogBtn);
@@ -75,7 +82,8 @@ public class PipesDetection extends AppCompatActivity {
         analyzeDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                innerPipesCount = Integer.parseInt(innerPipesInptDialog.getText().toString());
+                innerPipesCount = (innerPipesInptDialog.getText().length() != 0) ? Integer.parseInt(innerPipesInptDialog.getText().toString()) : 0;
+                innerPipesCountLbl.setText(String.valueOf(innerPipesCount));
                 inptDialog.dismiss();
             }
         });
@@ -121,14 +129,24 @@ public class PipesDetection extends AppCompatActivity {
         reTakeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PipesDetection.this, "Clicked " + isFromCapture, Toast.LENGTH_SHORT).show();
                 launcher.launch(retakeIntent);
             }
         });
 
     }
 
+    protected void showEditInnerPipesDialog(){
+        try{
+            inptDialog.show();
+
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+            Log.d("error", e.toString());
+        }
+    }
+
     protected void setImageToView(Uri uri){
+        Toast.makeText(this, uri.toString(), Toast.LENGTH_SHORT).show();
         imgView.setImageURI(uri);
     }
 

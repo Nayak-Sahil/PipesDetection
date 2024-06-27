@@ -243,11 +243,12 @@
                     android:layout_centerVertical="true"/>
 
                 <TextView
+                    android:id="@+id/innerPipesCountLbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:text="3"
+                    android:text="0"
                     android:textSize="12sp"
                     android:textColor="@color/secondary_text"
                     android:layout_centerVertical="true"/>
@@ -255,6 +256,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/editInnerPipesBtn"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:orientation="horizontal"
@@ -285,29 +287,29 @@
     </RelativeLayout>
 
 
-    <LinearLayout
-        android:id="@+id/correctBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_warning"
-        android:orientation="horizontal"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="18dp"
-        android:layout_alignRight="@id/detectedImgLayer"
-        android:layout_above="@id/detectedImgLayer"
-        android:layout_marginBottom="-15dp"
-        android:layout_marginRight="15dp"
-        android:translationZ="5dp"
-        android:gravity="center">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/correctBtn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/button_warning"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:paddingVertical="12dp"-->
+<!--        android:paddingHorizontal="18dp"-->
+<!--        android:layout_alignRight="@id/detectedImgLayer"-->
+<!--        android:layout_above="@id/detectedImgLayer"-->
+<!--        android:layout_marginBottom="-15dp"-->
+<!--        android:layout_marginRight="15dp"-->
+<!--        android:translationZ="5dp"-->
+<!--        android:gravity="center">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/warning"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:text="Wrong?"/>
-    </LinearLayout>
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="@color/warning"-->
+<!--            android:textSize="12sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="Wrong?"/>-->
+<!--    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="wrap_content"
