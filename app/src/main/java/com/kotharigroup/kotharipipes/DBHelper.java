@@ -1,5 +1,6 @@
 package com.kotharigroup.kotharipipes;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,24 +22,42 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE "+ Table_name + " (pipeId INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, pipeImg BLOB, createdDate VARCHAR, createdTime VARCHAR, innerPipes INTEGER, totalPipes INTEGER, detectedPipes INTEGER)");
     }
 
-    public void onPipesAnalyze(String name, Bitmap img, String createdDate, String createdTime, int innerPipes, int totalPipes, int detectedPipes){
+    public void onPipesAnalyze(String name, byte[] img, String createdDate, String createdTime, int innerPipes, int totalPipes, int detectedPipes){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("INSERT INTO "+ Table_name + " (name, pipeImg, createdDate, createdTime, innerPipes, totalPipes, detectedPipes) VALUES ('"+ name +"', "+ img +", '"+ createdDate +"', '"+ createdTime +"', "+ innerPipes +", "+ totalPipes +", "+ detectedPipes +")");
+
+        // Use ContentValues to insert data into the database
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("pipeImg", img);
+        contentValues.put("createdDate", createdDate);
+        contentValues.put("createdTime", createdTime);
+        contentValues.put("innerPipes", innerPipes);
+        contentValues.put("totalPipes", totalPipes);
+        contentValues.put("detectedPipes", detectedPipes);
+
+        // Insert the data
+        db.insert(Table_name, null, contentValues);
+
+        // Close the database
         db.close();
     }
 
     public Cursor getHistory(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+ Table_name, null);
-        db.close();
         return cursor;
     }
 
     public Cursor getPipeInsight(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+ Table_name + " WHERE id="+ id, null);
-        db.close();
         return cursor;
+    }
+
+    public void deleteEverything(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ Table_name);
+        db.close();
     }
 
     @Override

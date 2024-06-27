@@ -74,14 +74,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_above="@id/recentCountLbl"
+            android:layout_above="@id/totalPipesCountLbl"
             android:gravity="center">
-
-<!--            <ImageView-->
-<!--                android:layout_width="20dp"-->
-<!--                android:layout_height="20dp"-->
-<!--                android:layout_marginRight="5dp"-->
-<!--                android:src="@drawable/sparkles" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -94,10 +88,10 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/recentCountLbl"
+            android:id="@+id/totalPipesCountLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="250"
+            android:text="0"
             android:textSize="45sp"
             android:textStyle="bold"
             android:layout_marginBottom="-10dp"
@@ -128,18 +122,19 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:layout_marginRight="4dp"
+                    android:layout_marginRight="3dp"
                     android:text="Name: "
                     android:textSize="12sp"
                     android:textColor="@color/primary_text"
                     android:layout_centerVertical="true"/>
 
                 <TextView
+                    android:id="@+id/curnInsightNameLbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:text="DOPIPES001"
+                    android:text="-"
                     android:textSize="12sp"
                     android:textColor="@color/secondary_text"
                     android:layout_centerVertical="true"/>
@@ -164,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:layout_marginRight="4dp"
+                    android:layout_marginRight="3dp"
                     android:text="Data: "
                     android:textSize="12sp"
                     android:textColor="@color/primary_text"
@@ -201,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:layout_marginRight="4dp"
+                    android:layout_marginRight="3dp"
                     android:text="Time: "
                     android:textSize="12sp"
                     android:textColor="@color/primary_text"
@@ -240,7 +235,7 @@
                     android:textStyle="bold"
                     android:text="Inner Pipes:"
                     android:textSize="12sp"
-                    android:layout_marginRight="4dp"
+                    android:layout_marginRight="3dp"
                     android:textColor="@color/primary_text"
                     android:layout_centerVertical="true"/>
 
@@ -334,12 +329,13 @@
             android:src="@drawable/sparkles" />
 
         <TextView
+            android:id="@+id/detectedPipesCountLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/secondary"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:text="99 Outer Pipes"/>
+            android:text="0 Outer Pipes"/>
     </LinearLayout>
 
     <RelativeLayout

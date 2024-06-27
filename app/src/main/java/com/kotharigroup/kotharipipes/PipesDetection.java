@@ -2,6 +2,7 @@ package com.kotharigroup.kotharipipes;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -28,6 +29,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -42,12 +45,15 @@ public class PipesDetection extends AppCompatActivity {
     Intent retakeIntent;
     Button cancelDialogBtn, analyzeDialogBtn;
     EditText innerPipesInptDialog;
-    TextView innerPipesCountLbl, insightDateLbl, insightTimeLbl;
-    int innerPipesCount = 0;
+    TextView innerPipesCountLbl, insightDateLbl, insightTimeLbl, totalPipesCountLbl, detectedPipesCountLbl, curnInsightNameLbl;
+    int innerPipesCount = 0, detectedPipesCount = 0, totalPipesCount = 0;
     Dialog inptDialog;
     String dateNow = "", timeNow = "";
-    private String prefixInsightId = "KTHPIPES";
+    private String InsightPrefix = "PIPE";
+    private String currentInsightName = "";
     DBHelper dbHelper;
+    Bitmap pipesDetectionImg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +65,12 @@ public class PipesDetection extends AppCompatActivity {
             return insets;
         });
 
+
         dbHelper = new DBHelper(getApplicationContext(), null, null, 1);
 
+        totalPipesCountLbl = findViewById(R.id.totalPipesCountLbl);
+        detectedPipesCountLbl = findViewById(R.id.detectedPipesCountLbl);
+        curnInsightNameLbl = findViewById(R.id.curnInsightNameLbl);
 
         insightDateLbl = findViewById(R.id.insightDateLbl);
         insightTimeLbl = findViewById(R.id.insightTimeLbl);
@@ -96,6 +106,18 @@ public class PipesDetection extends AppCompatActivity {
         cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Make Record of Default-0 InnerPipesCount and store it in DB.
+                currentInsightName = InsightPrefix + "-" + dateNow.substring(0, dateNow.indexOf(' '));
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    currentInsightName += LocalTime.now().format(DateTimeFormatter.ofPattern("hmmss")).toString();
+                }
+
+                // Display Default InnerPipes Count-0 to User
+                computePipeCountAndShow();
+
+                createInsightRecord(currentInsightName, pipesDetectionImg, dateNow, timeNow, innerPipesCount, totalPipesCount, detectedPipesCount);
+
+                // Close Dialog
                 inptDialog.dismiss();
             }
         });
@@ -103,8 +125,21 @@ public class PipesDetection extends AppCompatActivity {
         analyzeDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Take InnerPipes Count from User
                 innerPipesCount = (innerPipesInptDialog.getText().length() != 0) ? Integer.parseInt(innerPipesInptDialog.getText().toString()) : 0;
-                innerPipesCountLbl.setText(String.valueOf(innerPipesCount));
+
+                // Make Record and store it in DB.
+                currentInsightName = InsightPrefix + "-" + dateNow.substring(0, dateNow.indexOf(' '));
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    currentInsightName += LocalTime.now().format(DateTimeFormatter.ofPattern("hmmss")).toString();
+                }
+
+                // Display InnerPipes Count to User
+                computePipeCountAndShow();
+
+                createInsightRecord(currentInsightName + dateNow.substring(0, dateNow.indexOf(' ')), pipesDetectionImg, dateNow, timeNow, innerPipesCount, totalPipesCount, detectedPipesCount);
+
+                // Close Dialog
                 inptDialog.dismiss();
             }
         });
@@ -122,11 +157,14 @@ public class PipesDetection extends AppCompatActivity {
                             Intent data = o.getData();
                             Bitmap imgBitmap = (Bitmap) data.getExtras().get("data");
                             setImageToView(imgBitmap);
+                            pipesDetectionImg = img;
                         }
                     }
                 });
+
                 retakeIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
                 setImageToView(img);
+                pipesDetectionImg = img;
             } else if(uri != null) {
                 isFromCapture = false;
                 launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -134,13 +172,20 @@ public class PipesDetection extends AppCompatActivity {
                     public void onActivityResult(ActivityResult o) {
                         if (o.getResultCode() == Activity.RESULT_OK) {
                             Intent data = o.getData();
-                            setImageToView((Uri) data.getData());
+                            Uri uri = (Uri) data.getData();
+                            setImageToView(uri);
+                            try {
+                                pipesDetectionImg = getBitMapImage(uri);
+                            } catch (IOException e) {
+                                Toast.makeText(PipesDetection.this, "Something went wrong in IMAGE.", Toast.LENGTH_SHORT).show();;
+                            }
                         }
                     }
                 });
 
                 retakeIntent.setAction(MediaStore.ACTION_PICK_IMAGES);
                 setImageToView(uri);
+                pipesDetectionImg = getBitMapImage(uri);
             }
         }catch(Exception e){
             Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
@@ -150,7 +195,6 @@ public class PipesDetection extends AppCompatActivity {
         reTakeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                 launcher.launch(retakeIntent);
             }
         });
@@ -160,17 +204,56 @@ public class PipesDetection extends AppCompatActivity {
     protected void showEditInnerPipesDialog(){
         try{
             inptDialog.show();
-
         }catch(Exception e){
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
             Log.d("error", e.toString());
         }
     }
 
-    protected void setImageToView(Uri uri){
-        Toast.makeText(this, uri.toString(), Toast.LENGTH_SHORT).show();
-        imgView.setImageURI(uri);
+    protected void createInsightRecord(String name, Bitmap img, String createdDate, String createdTime, int innerPipes, int totalPipes, int detectedPipes){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        try {
+            //bitmap to byte[] stream
+            img.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] imgBytes = stream.toByteArray();
+
+            // Insert data into the database
+            dbHelper.onPipesAnalyze(name, imgBytes, createdDate, createdTime, innerPipes, totalPipes, detectedPipes);
+        } catch (Exception e){
+            Toast.makeText(this, "Something went wrong while storing!", Toast.LENGTH_SHORT).show();
+        } finally {
+            // Close the stream
+            try {
+                stream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
+    protected Bitmap getBitMapImage(Uri uri) throws IOException {
+        return MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+    }
+
+    protected void computePipeCountAndShow(){
+        // Update Current InsightPipe Label Name
+        curnInsightNameLbl.setText(currentInsightName);
+
+        // Show Inner Pipes Count
+        innerPipesCountLbl.setText(String.valueOf(innerPipesCount));
+
+        // Show Detected Outer Pipes Count
+        detectedPipesCountLbl.setText(String.valueOf(detectedPipesCount));
+
+        // Compute Total Pipes Count
+        totalPipesCount = innerPipesCount * detectedPipesCount;
+
+        // Show Total No. Of Pipes Count
+        totalPipesCountLbl.setText(String.valueOf(totalPipesCount));
+    }
+
+    protected void setImageToView(Uri uri){ imgView.setImageURI(uri); }
 
     protected void setImageToView(Bitmap img){
         imgView.setImageBitmap(img);
