@@ -66,7 +66,7 @@ public class PipesDetection extends AppCompatActivity {
         insightTimeLbl = findViewById(R.id.insightTimeLbl);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dateNow = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMMM, YYYY")).toString();
-            timeNow = LocalTime.now().format(DateTimeFormatter.ofPattern("HH : mm a")).toString().toUpperCase();
+            timeNow = LocalTime.now().format(DateTimeFormatter.ofPattern("hh : mm a")).toString().toUpperCase();
             insightDateLbl.setText(dateNow);
             insightTimeLbl.setText(timeNow);
         }
