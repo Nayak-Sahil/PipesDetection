@@ -136,7 +136,7 @@ public class PipesDetection extends AppCompatActivity {
         analyzeDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                innerPipesCount = Integer.parseInt(innerPipesInptDialog.getText().toString());
+                innerPipesCount = innerPipesInptDialog.getText().toString().length() != 0 ? Integer.parseInt(innerPipesInptDialog.getText().toString()) : 0;
 
                 // first recompute as updated parameter then save it in DB.
                 computePipeCountAndShow();
