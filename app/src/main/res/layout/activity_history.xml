@@ -44,9 +44,11 @@
         android:text="Here, you can view all your past activity."/>
 
     <ListView
+        android:id="@+id/insightRecordListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/activityDescrp">
 
 

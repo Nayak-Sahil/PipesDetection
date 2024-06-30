@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:paddingRight="5dp"
+    android:paddingVertical="5dp">
+
+    <TextView
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="2dp"
+        android:id="@+id/curnInsightNameLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="PIPE-2765122"
+        android:textSize="16sp"
+        android:textColor="@color/secondary"
+        android:layout_centerVertical="true"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <LinearLayout
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/pipes_package" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Total Pipes:"
+                android:textSize="12sp"
+                android:layout_marginRight="3dp"
+                android:textColor="@color/primary_text"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/totalPipeCountItemLbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="0"
+                android:textSize="12sp"
+                android:textColor="@color/secondary_text"
+                android:layout_centerVertical="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/calendar_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Date:"
+                android:textSize="12sp"
+                android:layout_marginRight="3dp"
+                android:textColor="@color/primary_text"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/dateLbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="0"
+                android:textSize="12sp"
+                android:textColor="@color/secondary_text"
+                android:layout_centerVertical="true"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
