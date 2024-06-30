@@ -42,9 +42,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public Cursor getHistory(){
+    public Cursor getJustMetaData(){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ Table_name, null);
+        Cursor cursor = db.rawQuery("SELECT name, createdDate, totalPipes FROM "+ Table_name, null);
         return cursor;
     }
 
