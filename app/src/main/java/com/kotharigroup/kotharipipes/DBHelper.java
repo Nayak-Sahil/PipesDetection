@@ -60,6 +60,18 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public Cursor getRecordsCount(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) AS Count FROM " + Table_name, null);
+        return cursor;
+    }
+
+    public Cursor getRecentRecords(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT totalPipes FROM " + Table_name + " ORDER BY pipeId DESC LIMIT 1", null);
+        return cursor;
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
