@@ -119,12 +119,16 @@ public class PipesDetection extends AppCompatActivity {
             }
         });
 
-//        showInnerPipesDialog();
+        // showInnerPipesDialog();
 
         // Dialog Action-Button Operation
         cancelDialogBtn = inptDialog.findViewById(R.id.cancelDialogBtn);
         analyzeDialogBtn = inptDialog.findViewById(R.id.analyzeDialogBtn);
         innerPipesInptDialog = inptDialog.findViewById(R.id.innerPipesInptDialog);
+
+        // Set Default Inner Pipes Count to EditText of Dialog
+        innerPipesInptDialog.setText(String.valueOf(defaultInnerPipesCount));
+
         cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -342,7 +346,7 @@ public class PipesDetection extends AppCompatActivity {
 
             dbHelper.onPipesAnalyze(this.currentInsightName, imageData, dateNow, timeNow, innerPipesCount, totalPipesCount, detectedPipesCount);
 
-            Toast.makeText(this, "✨ Saved Current Insight.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Saved Insights.", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             Toast.makeText(this, "Sorry, Unable to store your data!", Toast.LENGTH_SHORT).show();
         }

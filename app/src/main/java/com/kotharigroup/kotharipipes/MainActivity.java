@@ -2,16 +2,23 @@ package com.kotharigroup.kotharipipes;
 
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -27,6 +34,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -39,8 +47,13 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton optionBtn;
     Button viewHistoryBtn, takePhotoBtn, chooseImgBtn;
+    ImageView homeSettingBtn;
+    TextView recordCountLbl, recentPipesCountLbl, dialogTitle;
+    DBHelper dbHelper;
+    Dialog defaultInnerPipesDialog;
+    Button cancelDialogBtn, setInnerPipesCountDialogBtn;
+    EditText inptDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +72,69 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Open Settings - Default_Inner_Pipes_Count Dialog
+        homeSettingBtn = findViewById(R.id.homeSettingBtn);
+
+        // Initialize Dialog
+        defaultInnerPipesDialog = new Dialog(MainActivity.this);
+
+        // Set Custome Dialog Layout
+        defaultInnerPipesDialog.setContentView(R.layout.dialog);
+
+        // Set layout
+        defaultInnerPipesDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        homeSettingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                defaultInnerPipesDialog.show();
+            }
+        });
+
+        // Dialog Action-Button Operation
+        cancelDialogBtn = defaultInnerPipesDialog.findViewById(R.id.cancelDialogBtn);
+        setInnerPipesCountDialogBtn = defaultInnerPipesDialog.findViewById(R.id.analyzeDialogBtn);
+        inptDialog = defaultInnerPipesDialog.findViewById(R.id.innerPipesInptDialog);
+        dialogTitle = defaultInnerPipesDialog.findViewById(R.id.dialogTitle);
+
+        // Set Dialog title
+        dialogTitle.setText("Default " + dialogTitle.getText());
+        cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                defaultInnerPipesDialog.dismiss();
+            }
+        });
+
+        setInnerPipesCountDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Taking input from user.
+                int defaultInnerPipesCount = Integer.parseInt(inptDialog.getText().toString());
+
+                // making SharedPreference to store small amount of data in key-value pair.
+                SharedPreferences defaultPreferences = getApplicationContext().getSharedPreferences("User_Preferences", MODE_PRIVATE);
+                SharedPreferences.Editor editor = defaultPreferences.edit();
+
+                // put data in it.
+                editor.putInt("default_inner_pipes", defaultInnerPipesCount);
+
+                // save data in it.
+                editor.apply();
+
+                // close the dialog.
+                defaultInnerPipesDialog.dismiss();
+            }
+        });
+
+
+        recentPipesCountLbl = findViewById(R.id.recentCountLbl);
+        recordCountLbl = findViewById(R.id.recordCountLbl);
+
+        // 1. Establish DB Connection
+        dbHelper = new DBHelper(getApplicationContext(), null, null, 1);
+
+        // 2. Update Dashboard
+        updateDashboard();
 
         viewHistoryBtn = findViewById(R.id.viewHistoryBtn);
         takePhotoBtn = findViewById(R.id.takePhotoBtn);
@@ -117,45 +193,49 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    protected static void sendPostRequest(Bitmap img){
+    protected void updateDashboard(){
+        // 1. Fetch All Records Count
+        int totalHistory = fetchHistoryCount();
+        recordCountLbl.setText(String.valueOf(totalHistory));
 
-        OkHttpClient client = new OkHttpClient();
 
-        // Create request body for file
-//        RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), img);
-
-        // Create multipart body
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-//                .addFormDataPart("file", fileBody)
-                .addFormDataPart("date", "25-5-2020")
-                .build();
-
-        // Create request
-        Request request = new Request.Builder()
-                .url("http://localhost/upload")
-                .post(requestBody)
-                .build();
-
-        // Execute request
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                // Handle failure
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    // Handle success
-                    String responseData = response.body().string();
-                    System.out.println("Response: " + responseData);
-                } else {
-                    // Handle error
-                    System.out.println("Error: " + response.message());
-                }
-            }
-        });
+        // 2. Fetch Last Recent Records
+        int recentPipesCount = fetchLastRecentRecord();
+        recentPipesCountLbl.setText(String.valueOf(recentPipesCount));
     }
+
+    @Override
+    protected void onResume() {
+        updateDashboard();
+        super.onResume();
+    }
+
+    protected int fetchHistoryCount(){
+        try{
+            Cursor c = dbHelper.getRecordsCount();
+            if(c == null || !c.moveToFirst()){
+                return 0;
+            }else{
+                return c.getInt(0);
+            }
+        }catch (Exception e){
+            Toast.makeText(this, "Sorry, Unable to fetch records count.", Toast.LENGTH_SHORT).show();
+            return 0;
+        }
+    }
+
+    protected int fetchLastRecentRecord(){
+        try{
+            Cursor c = dbHelper.getRecentRecords();
+            if(c == null || !c.moveToFirst()){
+                return 0;
+            }else{
+                return c.getInt(0);
+            }
+        }catch (Exception e){
+            Toast.makeText(this, "Sorry, Unable to fetch recent records.", Toast.LENGTH_SHORT).show();
+            return 0;
+        }
+    }
+
 }
