@@ -117,6 +117,10 @@ public class PipesDetection extends AppCompatActivity {
         truck_no = getIntent().getStringExtra("truck_no").toString();
         specialNote = getIntent().getStringExtra("extra_note").toString();
         pipesList = (List<Map<String, String>>) getIntent().getSerializableExtra("pipes_datalist");
+
+        // Update Details as per given data
+        currentInsightName = truck_no.toString();
+        curnInsightNameLbl.setText(currentInsightName);
         innerPipesCount = pipesList.size() - 1;
 
         // 4. View More Dialog
@@ -158,9 +162,8 @@ public class PipesDetection extends AppCompatActivity {
         editInputPipesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(getApplicationContext(), PreDetection.class);
-//                startActivity(i);
-                finish();
+                // Go back to previous activity
+                finish(); // finish() destroys the current activity and returns to the previous activity with saved details.
             }
         });
 
@@ -377,12 +380,6 @@ public class PipesDetection extends AppCompatActivity {
 
     protected void saveThisPoint(byte[] imageData){
         try{
-            // Set ID to Current Detection Activity.
-            currentInsightName = InsightPrefix + "-" + dateNow.substring(0, dateNow.indexOf(' '));
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                currentInsightName += LocalTime.now().format(DateTimeFormatter.ofPattern("hmmss")).toString();
-            }
-
             dbHelper.onPipesAnalyze(this.currentInsightName, imageData, dateNow, timeNow, innerPipesCount, totalPipesCount, detectedPipesCount);
 
             Toast.makeText(this, "Saved Insights.", Toast.LENGTH_SHORT).show();
