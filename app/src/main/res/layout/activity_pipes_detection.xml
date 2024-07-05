@@ -120,7 +120,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
                     android:layout_marginRight="3dp"
                     android:text="Name: "
@@ -132,9 +131,8 @@
                     android:id="@+id/curnInsightNameLbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
-                    android:text="-"
+                    android:text="GJ 18 HH 6489"
                     android:textSize="12sp"
                     android:textColor="@color/secondary_text"
                     android:layout_centerVertical="true"/>
@@ -157,7 +155,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
                     android:layout_marginRight="3dp"
                     android:text="Data: "
@@ -169,7 +166,6 @@
                     android:id="@+id/insightDateLbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
                     android:text="-"
                     android:textSize="12sp"
@@ -194,7 +190,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
                     android:layout_marginRight="3dp"
                     android:text="Time: "
@@ -206,7 +201,6 @@
                     android:id="@+id/insightTimeLbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
                     android:text="-"
                     android:textSize="12sp"
@@ -231,7 +225,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
                     android:text="Inner Pipes:"
                     android:textSize="12sp"
@@ -243,40 +236,69 @@
                     android:id="@+id/innerPipesCountLbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/recentCountLbl"
                     android:textStyle="bold"
                     android:text="0"
                     android:textSize="12sp"
                     android:textColor="@color/secondary_text"
                     android:layout_centerVertical="true"/>
-
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/editInnerPipesBtn"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_alignParentRight="true">
 
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/note_pen_icon" />
-
-                <TextView
+                <LinearLayout
+                    android:id="@+id/viewMoreBtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/recentCountLbl"
-                    android:textStyle="bold"
-                    android:text="Edit Inner Pipes"
-                    android:textSize="12sp"
-                    android:layout_marginRight="4dp"
-                    android:textColor="@color/secondary"
-                    android:layout_centerVertical="true"/>
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical">
 
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/viewmore_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="View More"
+                        android:textSize="12sp"
+                        android:layout_marginRight="4dp"
+                        android:textColor="@color/secondary"
+                        android:layout_centerVertical="true"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/editInputPipesBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_gravity="right|center"
+                        android:src="@drawable/note_pen_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Change"
+                        android:textSize="12sp"
+                        android:layout_marginRight="4dp"
+                        android:textColor="@color/secondary"
+                        android:layout_centerVertical="true"/>
+
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -284,29 +306,29 @@
     </RelativeLayout>
 
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/correctBtn"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@drawable/button_warning"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:paddingVertical="12dp"-->
-<!--        android:paddingHorizontal="18dp"-->
-<!--        android:layout_alignRight="@id/detectedImgLayer"-->
-<!--        android:layout_above="@id/detectedImgLayer"-->
-<!--        android:layout_marginBottom="-15dp"-->
-<!--        android:layout_marginRight="15dp"-->
-<!--        android:translationZ="5dp"-->
-<!--        android:gravity="center">-->
+    <LinearLayout
+        android:id="@+id/correctBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_warning"
+        android:orientation="horizontal"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="18dp"
+        android:layout_alignRight="@id/detectedImgLayer"
+        android:layout_above="@id/detectedImgLayer"
+        android:layout_marginBottom="-15dp"
+        android:layout_marginRight="15dp"
+        android:translationZ="5dp"
+        android:gravity="center">
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textColor="@color/warning"-->
-<!--            android:textSize="12sp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:text="Wrong?"/>-->
-<!--    </LinearLayout>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/warning"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="Wrong?"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -343,7 +365,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginHorizontal="20dp"
         android:paddingTop="40dp"
         android:background="@drawable/layoutborder">

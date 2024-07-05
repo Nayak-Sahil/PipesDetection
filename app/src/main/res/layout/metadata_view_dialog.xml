@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:padding="15dp">
+
+    <RelativeLayout
+        android:id="@+id/dialogTitleLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/dialogIcon"
+            android:layout_centerVertical="true"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/viewmore_icon"/>
+
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/dialogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/metadata_activity_name"
+            android:textStyle="bold"
+            android:textColor="@color/primary_text"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:id="@+id/closeDtlDialogBtn"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/close_icon"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/dialogInptLayer"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/dialogTitleLayer"
+        android:layout_width="match_parent"
+        android:layout_height="540dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:background="@drawable/layoutborder"
+                android:orientation="vertical"
+                android:id="@+id/basicDataLayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dialogInitialActionLayer">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:text="Basic Details"
+                        android:textColor="@color/secondary"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="10dp"/>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/truck_icon"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Truck's Number"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_text"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/truckNumLbl"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="-"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/notebook_icon"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Note "
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_text"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/specialNoteLbl"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="-"
+                        android:scrollHorizontally="true"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/calendar_icon"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_text"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/detectionDateLbl"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="-"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/clock_icon"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_text"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/detectionTimeLbl"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="-"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@drawable/layoutborder"
+                android:orientation="vertical"
+                android:id="@+id/pipeDataLayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/basicDataLayer"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Detection Result"
+                    android:textColor="@color/secondary"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10dp"/>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/sparkles"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Outer Pipes"
+                            android:textStyle="bold"
+                            android:textColor="@color/secondary"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/ttlDetctdOuterPipeCountLbl"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="-"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/inner_pipes"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Inner Pipes"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_text"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/ttlInnerPipeCountLbl"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="-"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:rotation="45"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/pipe_icon"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Pipes"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_text"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/ttlPipeCountLbl"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="-"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@drawable/layoutborder"
+                android:orientation="vertical"
+                android:id="@+id/pipeUserInputDtlLayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pipeDataLayer"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Input Specification"
+                    android:textColor="@color/secondary"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10dp"/>
+
+                <ListView
+                    android:id="@+id/pipeDataDialogList"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

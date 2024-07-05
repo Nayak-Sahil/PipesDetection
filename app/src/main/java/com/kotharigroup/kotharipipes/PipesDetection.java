@@ -11,12 +11,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +40,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -48,16 +54,15 @@ import okhttp3.Response;
 
 public class PipesDetection extends AppCompatActivity {
 
-    ImageView imgView;
-    LinearLayout reTakeBtn, editInnerPipesBtn;
+    ImageView imgView, closeDtlDialogBtn;
+    LinearLayout reTakeBtn, viewMoreBtn, editInputPipesBtn;
     Boolean isFromCapture;
     ActivityResultLauncher<Intent> launcher;
     Intent retakeIntent;
-    Button cancelDialogBtn, analyzeDialogBtn;
-    EditText innerPipesInptDialog;
     TextView innerPipesCountLbl, insightDateLbl, insightTimeLbl, totalPipesCountLbl, detectedPipesCountLbl, curnInsightNameLbl;
+    TextView truckNumDialogLbl, noteDialogLbl, dateDialogLbl, timeDialogLbl, outerPipesCntDialogLbl, innerPipesCntDialogLbl, ttlPipesCntDialogLbl;
     int innerPipesCount = 0, detectedPipesCount = 0, totalPipesCount = 0;
-    Dialog inptDialog;
+    Dialog inptDialog, viewMoreDialog;
     String dateNow = "", timeNow = "";
     private String InsightPrefix = "PIPE";
     private String currentInsightName = "";
@@ -65,7 +70,9 @@ public class PipesDetection extends AppCompatActivity {
     Bitmap bitmapOfPipes;
     OkHttpClient client;
     SharedPreferences userPreferences;
-
+    List<Map<String, String>> pipesList;
+    String truck_no, specialNote;
+    ListView pipeDataDialogList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,50 +113,54 @@ public class PipesDetection extends AppCompatActivity {
         curnInsightNameLbl = findViewById(R.id.curnInsightNameLbl);
         innerPipesCountLbl = findViewById(R.id.innerPipesCountLbl);
 
-        // 3. Inner Pipes Dialog Create
-        inptDialog = new Dialog(PipesDetection.this);
-        inptDialog.setContentView(R.layout.dialog);
-        inptDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        // 3. Get Required Data from previous activity-Intent
+        truck_no = getIntent().getStringExtra("truck_no").toString();
+        specialNote = getIntent().getStringExtra("extra_note").toString();
+        pipesList = (List<Map<String, String>>) getIntent().getSerializableExtra("pipes_datalist");
+        innerPipesCount = pipesList.size() - 1;
 
-        editInnerPipesBtn = findViewById(R.id.editInnerPipesBtn);
-        editInnerPipesBtn.setOnClickListener(new View.OnClickListener() {
+        // 4. View More Dialog
+        viewMoreDialog = new Dialog(PipesDetection.this);
+        viewMoreDialog.setContentView(R.layout.metadata_view_dialog);
+        viewMoreDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        viewMoreBtn = findViewById(R.id.viewMoreBtn);
+        viewMoreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showInnerPipesDialog();
+                viewMoreDialog.show();
             }
         });
 
-        // showInnerPipesDialog();
+        // 5. Initialize View-More-Dialog's component
+        truckNumDialogLbl = viewMoreDialog.findViewById(R.id.truckNumLbl);
+        noteDialogLbl = viewMoreDialog.findViewById(R.id.specialNoteLbl);
+        dateDialogLbl = viewMoreDialog.findViewById(R.id.detectionDateLbl);
+        timeDialogLbl = viewMoreDialog.findViewById(R.id.detectionTimeLbl);
+        outerPipesCntDialogLbl = viewMoreDialog.findViewById(R.id.ttlDetctdOuterPipeCountLbl);
+        innerPipesCntDialogLbl = viewMoreDialog.findViewById(R.id.ttlInnerPipeCountLbl);
+        ttlPipesCntDialogLbl = viewMoreDialog.findViewById(R.id.ttlPipeCountLbl);
+        pipeDataDialogList = viewMoreDialog.findViewById(R.id.pipeDataDialogList);
+        closeDtlDialogBtn = viewMoreDialog.findViewById(R.id.closeDtlDialogBtn);
 
-        // Dialog Action-Button Operation
-        cancelDialogBtn = inptDialog.findViewById(R.id.cancelDialogBtn);
-        analyzeDialogBtn = inptDialog.findViewById(R.id.analyzeDialogBtn);
-        innerPipesInptDialog = inptDialog.findViewById(R.id.innerPipesInptDialog);
-
-        // Set Default Inner Pipes Count to EditText of Dialog
-        innerPipesInptDialog.setText(String.valueOf(defaultInnerPipesCount));
-
-        cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
+        closeDtlDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Just close dialog, because onDismiss Listener logic is written.
-                inptDialog.dismiss();
+                viewMoreDialog.dismiss();
             }
         });
 
-        analyzeDialogBtn.setOnClickListener(new View.OnClickListener() {
+        // 6. Show all received details to Dialog
+        showAllDtlsToViewMoreDialog();
+
+        editInputPipesBtn = findViewById(R.id.editInputPipesBtn);
+
+        editInputPipesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                innerPipesCount = innerPipesInptDialog.getText().toString().length() != 0 ? Integer.parseInt(innerPipesInptDialog.getText().toString()) : 0;
-
-                // first recompute as updated parameter then save it in DB.
-                computePipeCountAndShow();
-
-                // create new record for every new update computation even when image is same.
-                saveThisPoint(getImageByte(bitmapOfPipes));
-
-                // Just close dialog, because onDismiss Listener logic is written.
-                inptDialog.dismiss();
+//                Intent i = new Intent(getApplicationContext(), PreDetection.class);
+//                startActivity(i);
+                finish();
             }
         });
 
@@ -222,6 +233,33 @@ public class PipesDetection extends AppCompatActivity {
         detectNStore();
     }
 
+    protected void showAllDtlsToViewMoreDialog(){
+        // Set Data to respective labels
+        truckNumDialogLbl.setText(truck_no);
+        noteDialogLbl.setText(specialNote.toString().length() == 0 ? "-" : specialNote);
+        dateDialogLbl.setText(dateNow);
+        timeDialogLbl.setText(timeNow);
+        outerPipesCntDialogLbl.setText(String.valueOf(detectedPipesCount));
+        innerPipesCntDialogLbl.setText(String.valueOf(innerPipesCount));
+        ttlPipesCntDialogLbl.setText(String.valueOf(totalPipesCount));
+
+        // Set Input-Pipes-Specification to ListView
+        setViewToList();
+    }
+
+    protected void setViewToList(){
+        String[] from = {"pipeSize", "pipeCount"};
+
+        // Ids of views in the layout (android.R.layout.simple_list_item_2)
+        int[] to = {R.id.pipeSizeListLbl, R.id.pipeQuantListLbl};
+
+        // Create the SimpleAdapter
+        SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), pipesList, R.layout.input_parameter_list, from, to);
+
+        // Set the adapter to the ListView
+        pipeDataDialogList.setAdapter(adapter);
+    }
+
     protected void showInnerPipesDialog(){
         try{
             inptDialog.show();
@@ -259,6 +297,7 @@ public class PipesDetection extends AppCompatActivity {
 
     protected void computePipeCountAndShow(){
         // Update Current InsightPipe Label Name
+        Toast.makeText(this, currentInsightName, Toast.LENGTH_SHORT).show();
         curnInsightNameLbl.setText(currentInsightName);
 
         // Show Inner Pipes Count
@@ -311,6 +350,9 @@ public class PipesDetection extends AppCompatActivity {
                             // Compute Total Pipes Count and Show to Labels
                             computePipeCountAndShow();
 
+                            // Update ViewMoreDialog Details
+                            showAllDtlsToViewMoreDialog();
+
                             // Insert data into the database
                             saveThisPoint(imageData);
                         }catch (Exception e){
@@ -331,9 +373,6 @@ public class PipesDetection extends AppCompatActivity {
 
         // Send Post Request
         postRequest(imgBytes);
-
-        // Close Dialog
-        inptDialog.dismiss();
     }
 
     protected void saveThisPoint(byte[] imageData){

@@ -35,6 +35,21 @@
             android:textStyle="bold"
             android:textColor="@color/primary"
             android:textSize="20sp"/>
+
+        <RelativeLayout
+            android:layout_gravity="right|center"
+            android:layout_width="match_parent"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="55dp">
+            <ImageView
+                android:id="@+id/homeSettingBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/settings_icon" />
+        </RelativeLayout>
     </LinearLayout>
 
     <TextView
@@ -76,21 +91,11 @@
             android:textColor="@color/primary"
             android:layout_centerVertical="true"/>
 
-        <ImageButton
-            android:id="@+id/refreshBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/countTitleLbl"
-            android:layout_alignRight="@+id/countTitleLbl"
-            android:background="@color/white"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/refresh_icon" />
-
         <TextView
             android:id="@+id/recentCountLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="250"
+            android:text="0"
             android:textSize="45sp"
             android:textStyle="bold"
             android:layout_alignParentBottom="true"/>
@@ -144,10 +149,10 @@
             android:text="View History"/>
 
         <TextView
-            android:id="@+id/historyCount"
+            android:id="@+id/recordCountLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="20+"
+            android:text="0"
             android:textSize="35sp"
             android:textStyle="bold"
             android:layout_marginRight="10dp"

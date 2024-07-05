@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 if (o.getResultCode() == Activity.RESULT_OK) {
                     Intent data = o.getData();
                     Bitmap img = (Bitmap) data.getExtras().get("data");
-                    Intent detectionIntent = new Intent(getApplicationContext(), PipesDetection.class);
+                    Intent detectionIntent = new Intent(getApplicationContext(), PreDetection.class);
                     detectionIntent.putExtra("pipes_img", img);
                     startActivity(detectionIntent);
                 }
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             public void onActivityResult(ActivityResult o) {
                 if (o.getResultCode() == Activity.RESULT_OK) {
                     Intent data = o.getData();
-                    Intent detectionIntent = new Intent(getApplicationContext(), PipesDetection.class);
+                    Intent detectionIntent = new Intent(getApplicationContext(), PreDetection.class);
                     detectionIntent.putExtra("pipes_uri", data.getData());
                     startActivity(detectionIntent);
                 }
