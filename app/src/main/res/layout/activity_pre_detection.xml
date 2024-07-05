@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".PreDetection">
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/titleLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/viewmore_icon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/metadata_activity_name"
+            android:textStyle="bold"
+            android:textColor="@color/secondary"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/copyFromLastRecordBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/titleLayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/copy_icon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Copy from last record"
+            android:textStyle="bold"
+            android:textColor="@color/primary_text"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/inptLayer"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/copyFromLastRecordBtn"
+        android:layout_width="match_parent"
+        android:layout_height="550dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:background="@drawable/layoutborder"
+                android:orientation="vertical"
+                android:id="@+id/basicDataLayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:text="Basic Details"
+                    android:textColor="@color/secondary"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10dp"/>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/truck_icon"/>
+
+                        <TextView
+                            android:id="@+id/truckNumLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Truck's Number"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_text"
+                            android:textSize="13sp"/>
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/truckNumInpt"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:hint="GJ 00 XX 0001"
+                        android:inputType="textCapCharacters"
+                        android:textAlignment="center"
+                        android:paddingHorizontal="5dp"
+                        android:textColor="@color/primary_text"
+                        android:backgroundTint="@color/secondary"
+                        android:textSize="13sp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/notebook_icon"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add Note"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_text"
+                            android:textSize="13sp"/>
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/noteInpt"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:paddingHorizontal="5dp"
+                        android:textColor="@color/primary_text"
+                        android:backgroundTint="@color/secondary"
+                        android:textSize="13sp"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@drawable/layoutborder"
+                android:orientation="vertical"
+                android:id="@+id/pipeDataLayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/basicDataLayer"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/pipeDetailsLbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pipes Details"
+                    android:textColor="@color/secondary"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10dp"/>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/inner_pipes"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pipe Size (mm)"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_text"
+                            android:textSize="13sp"/>
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/pipeSizeInpt"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:hint="20"
+                        android:inputType="numberDecimal"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_text"
+                        android:backgroundTint="@color/secondary"
+                        android:textSize="13sp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/pipes_package"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pipe Quantity"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_text"
+                            android:textSize="13sp"/>
+
+                    </LinearLayout>
+
+
+                    <EditText
+                        android:id="@+id/pipeCountInpt"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:hint="20"
+                        android:inputType="numberDecimal"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary_text"
+                        android:backgroundTint="@color/secondary"
+                        android:textSize="13sp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_marginVertical="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/addPipeRecordBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_badge"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp"
+                        android:paddingHorizontal="18dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/retakeBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_text"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:text="Add Pipe"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary"
+                        android:textStyle="bold"
+                        android:layout_alignParentLeft="true"
+                        android:text="Pipes Records"/>
+                </RelativeLayout>
+
+                <ListView
+                    android:id="@+id/pipeDataListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <RelativeLayout
+        android:layout_marginHorizontal="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:paddingHorizontal="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/analyzeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Analyze"
+            android:textColor="@color/secondary"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="@color/secondary"
+            app:rippleColor="#17CACACA"
+            android:strokeWidth="1"
+            android:textSize="13sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/errorLbl"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/warning"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:layout_alignParentLeft="true"
+            android:text=""/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

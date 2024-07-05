@@ -4,4 +4,7 @@
     <string name="detection_activity_name">Pipe Analysis</string>
     <string name="history_activity_name">History</string>
     <string name="dialog_name">Inner Pipes</string>
+    <string name="metadata_activity_name">Pipes Specification</string>
+    <string name="required_error">Please fill all required field.</string>
+    <string name="image_intent_error">Unable to get image., Please Go back and Try again.</string>
 </resources>
