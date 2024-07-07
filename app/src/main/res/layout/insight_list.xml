@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="PIPE-2765122"
+        android:text="PIPE - DEFAULT"
         android:textSize="16sp"
         android:textColor="@color/secondary"
         android:layout_centerVertical="true"/>
