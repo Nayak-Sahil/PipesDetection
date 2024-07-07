@@ -61,7 +61,7 @@
                 android:src="@drawable/focus_img" />
 
             <TextView
-                android:id="@+id/retakeBtn"
+                android:id="@+id/retakeBtnText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary_text"
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="GJ 18 HH 6489"
+                    android:text=""
                     android:textSize="12sp"
                     android:textColor="@color/secondary_text"
                     android:layout_centerVertical="true"/>
@@ -307,7 +307,8 @@
 
 
     <LinearLayout
-        android:id="@+id/correctBtn"
+        android:visibility="invisible"
+        android:id="@+id/correctDetectionBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_warning"

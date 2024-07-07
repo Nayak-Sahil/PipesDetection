@@ -133,9 +133,9 @@ public class MainActivity extends AppCompatActivity {
         // 1. Establish DB Connection
         dbHelper = new DBHelper(getApplicationContext(), null, null, 1);
 
-        // 2. Update Dashboard
-        updateDashboard();
+        // 2. Update Dashboard Invoked in onResume()
 
+        // 3. Initialize other component.
         viewHistoryBtn = findViewById(R.id.viewHistoryBtn);
         takePhotoBtn = findViewById(R.id.takePhotoBtn);
         chooseImgBtn = findViewById(R.id.chooseImageBtn);

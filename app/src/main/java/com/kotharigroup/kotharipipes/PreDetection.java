@@ -1,6 +1,7 @@
 package com.kotharigroup.kotharipipes;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +23,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +42,9 @@ public class PreDetection extends AppCompatActivity {
     Intent detectionIntent;
     List<Map<String, String>> pipesList;
     ListView pipeDataListView;
+    String truckNo, specialNotes;
+    Gson gson;
+    SharedPreferences pipesInputPreference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +55,8 @@ public class PreDetection extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        gson = new Gson();
 
         truckNumInpt = findViewById(R.id.truckNumInpt);
         noteInpt = findViewById(R.id.noteInpt);
@@ -114,9 +124,18 @@ public class PreDetection extends AppCompatActivity {
                     }
 
                     // 2. Add other filled metadata into next intent
-                    detectionIntent.putExtra("truck_no", truckNumInpt.getText().toString());
-                    detectionIntent.putExtra("extra_note", noteInpt.getText().toString());
-                    detectionIntent.putExtra("pipes_datalist", (Serializable) pipesList);
+                    truckNo = truckNumInpt.getText().toString();
+                    specialNotes = noteInpt.getText().toString();
+
+                    // First save data to preference for future access.
+                    saveToPreference();
+
+                    // Add Data to Intent Body
+                    detectionIntent.putExtra("truck_no", truckNo);
+                    detectionIntent.putExtra("extra_note", specialNotes);
+                    detectionIntent.putExtra("pipes_datalist", new Gson().toJson(pipesList));
+
+                    detectionIntent.putExtra("MODE", "DETECTION_MODE");
 
                     startActivity(detectionIntent);
                 }else{
@@ -125,11 +144,53 @@ public class PreDetection extends AppCompatActivity {
                 }
             }
         });
+
+        copyFromLastRecordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPreferenceDataToView();
+            }
+        });
+    }
+    
+    protected void saveToPreference(){
+        // making SharedPreference to store small amount of data in key-value pair.
+        pipesInputPreference = getApplicationContext().getSharedPreferences("Pipes_Input_Specification", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pipesInputPreference.edit();
+
+        // put data in it.
+        editor.putString("Truck_Number", truckNo);
+        editor.putString("Special_Note", specialNotes);
+        editor.putString("Input_Pipes_List", gson.toJson(pipesList));
+
+        // save data in it.
+        editor.apply();
+    }
+
+    protected void showPreferenceDataToView(){
+        // Get Preference
+        pipesInputPreference = getApplicationContext().getSharedPreferences("Pipes_Input_Specification", MODE_PRIVATE);
+
+        // Get Data from Preference
+        String truckNoPref = pipesInputPreference.getString("Truck_Number", "");
+        String specialNotePref = pipesInputPreference.getString("Special_Note", "");
+
+        Type type = new TypeToken<List<Map<String, String>>>() {}.getType();
+        pipesList = gson.fromJson(pipesInputPreference.getString("Input_Pipes_List", ""), type);
+
+        // Show Preference Data to View
+        if(truckNoPref.length() == 0){
+            Toast.makeText(getApplicationContext(), "Sorry, Not Found Any Previous Record.", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getApplicationContext(), "Copied Data.", Toast.LENGTH_SHORT).show();
+
+            truckNumInpt.setText(truckNoPref);
+            noteInpt.setText(specialNotePref);
+            setViewToList();
+        }
     }
 
     protected void setViewToList(){
-
-
         String[] from = {"pipeSize", "pipeCount"};
 
         // Ids of views in the layout (android.R.layout.simple_list_item_2)
@@ -156,7 +217,7 @@ public class PreDetection extends AppCompatActivity {
         }
         truckNumLbl.setTextColor(getColor(R.color.primary_text));
 
-        if(pipesList.isEmpty()){
+        if(pipesList.size() == 0){
             pipeDetailsLbl.setTextColor(getColor(R.color.warning));
             return false;
         }

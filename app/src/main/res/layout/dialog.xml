@@ -16,32 +16,127 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/inner_pipes"/>
+            android:src="@drawable/pipes_dot"/>
 
         <TextView
             android:id="@+id/dialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_name"
+            android:text="@string/recorrect_dialog"
             android:textStyle="bold"
             android:textColor="@color/primary_text"
             android:textSize="18sp"/>
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/OuterPipeLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialogTitleLayer"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detected Outer Pipes: "
+            android:textColor="@color/secondary"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/outerPipesCountLbl"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/secondary_text"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/innerPipeLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/OuterPipeLayer"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inner Pipes: "
+            android:textColor="@color/primary_text"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/innerPipesCountLbl"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/secondary_text"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/totalPipeLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/innerPipeLayer"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Pipes: "
+            android:textColor="@color/primary_text"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/totalPipesCountLbl"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/secondary_text"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_below="@+id/totalPipeLayer"
+        android:lineHeight="20dp"
+        android:id="@+id/descripDialoLbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="25dp"
+        android:textColor="@color/secondary_text"
+        android:text="Write quantity that you want to add or remove from Total Pipes."/>
+    
     <LinearLayout
         android:id="@+id/dialogInptLayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialogTitleLayer"
-        android:layout_marginVertical="15dp"
+        android:layout_below="@+id/descripDialoLbl"
+        android:layout_marginTop="5dp"
         android:gravity="center_vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="How many Inner Pipes?"
-            android:textColor="@color/secondary"
+            android:text="Adjustment Pipes Count:"
+            android:textColor="@color/primary_text"
             android:textStyle="bold"
             android:layout_marginRight="20dp"
             android:textSize="15sp"/>
@@ -58,11 +153,77 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/dialogActionLayer"
+    <RelativeLayout
+        android:id="@+id/radioActionLayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dialogInptLayer"
+        android:layout_marginTop="10dp">
+
+        <RadioGroup
+            android:id="@+id/adjustActionRdoGrp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/addPipeCountRdo"
+                android:buttonTint="@color/primary_text"
+                android:textColor="@color/primary_text"
+                android:layout_width="wrap_content"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Add"/>
+
+            <RadioButton
+                android:id="@+id/removePipeCountRdo"
+                android:buttonTint="@color/primary_text"
+                android:textColor="@color/primary_text"
+                android:paddingRight="15dp"
+                android:layout_width="wrap_content"
+                android:layout_weight="0"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Remove" />
+
+        </RadioGroup>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/correctPipeCountLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radioActionLayer"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correct Total Pipes: "
+            android:textColor="@color/secondary"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/correctedTotalPipesCountLbl"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/secondary_text"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:id="@+id/dialogActionLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/correctPipeCountLayer"
         android:gravity="center_vertical|right">
 
         <Button
@@ -83,7 +244,7 @@
             android:id="@+id/analyzeDialogBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Analyze"
+            android:text="Save"
             android:textColor="@color/secondary"
             style="?attr/materialButtonOutlinedStyle"
             app:strokeColor="@color/secondary"
@@ -92,6 +253,5 @@
             android:textSize="12sp"
             android:textStyle="bold"/>
     </LinearLayout>
-
 
 </RelativeLayout>

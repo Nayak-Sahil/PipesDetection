@@ -19,21 +19,23 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "+ Table_name + " (pipeId INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, pipeImg BLOB, createdDate VARCHAR, createdTime VARCHAR, innerPipes INTEGER, totalPipes INTEGER, detectedPipes INTEGER)");
+        db.execSQL("CREATE TABLE "+ Table_name + " (pipeId INTEGER PRIMARY KEY AUTOINCREMENT, truckNo VARCHAR, pipeImg BLOB, createdDate VARCHAR, createdTime VARCHAR, innerPipes INTEGER, totalPipes INTEGER, detectedPipes INTEGER, specialNote VARCHAR, pipesInputRecord VARCHAR)");
     }
 
-    public void onPipesAnalyze(String name, byte[] img, String createdDate, String createdTime, int innerPipes, int totalPipes, int detectedPipes){
+    public void onPipesAnalyze(String truckNo, byte[] img, String createdDate, String createdTime, int innerPipes, int totalPipes, int detectedPipes, String specialNote, String pipesInputRecord){
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Use ContentValues to insert data into the database
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name", name);
+        contentValues.put("truckNo", truckNo);
         contentValues.put("pipeImg", img);
         contentValues.put("createdDate", createdDate);
         contentValues.put("createdTime", createdTime);
         contentValues.put("innerPipes", innerPipes);
         contentValues.put("totalPipes", totalPipes);
         contentValues.put("detectedPipes", detectedPipes);
+        contentValues.put("specialNote", specialNote);
+        contentValues.put("pipesInputRecord", pipesInputRecord);
 
         // Insert the data
         db.insert(Table_name, null, contentValues);
@@ -44,13 +46,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor getJustMetaData(){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT name, createdDate, totalPipes FROM "+ Table_name, null);
+        Cursor cursor = db.rawQuery("SELECT pipeId, truckNo, createdDate, totalPipes FROM "+ Table_name, null);
         return cursor;
     }
 
     public Cursor getPipeInsight(int id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ Table_name + " WHERE id="+ id, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ Table_name + " WHERE pipeId="+ id, null);
         return cursor;
     }
 
@@ -74,6 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + Table_name);
+        onCreate(db);
     }
 }
