@@ -70,16 +70,16 @@ public class PipesDetection extends AppCompatActivity {
     ActivityResultLauncher<Intent> launcher;
     Intent retakeIntent;
     TextView innerPipesCountLbl, insightDateLbl, insightTimeLbl, totalPipesCountLbl, detectedPipesCountLbl, curnInsightNameLbl;
-    TextView truckNumDialogLbl, noteDialogLbl, dateDialogLbl, timeDialogLbl, outerPipesCntDialogLbl, innerPipesCntDialogLbl, ttlPipesCntDialogLbl;
+    TextView truckNumDialogLbl, noteDialogLbl, dateDialogLbl, timeDialogLbl, outerPipesCntDialogLbl, innerPipesCntDialogLbl, ttlPipesCntDialogLbl, adjustedPipeCountViewDialogLbl;
 
     TextView detectedOuterPipeCrctDialogLbl, innerPipeCrctDialogLbl, ttlPipeCrctDialogLbl, finalAdjustedPipeCrctDialogLbl;
     EditText adjustPipeCountCrctDialogInpt;
     RadioGroup adjustActionPipeCntCrctDialogRdgrp;
     Button cancelCrctDialogBtn, saveCrctDialogBtn;
-    int innerPipesCount = 0, detectedPipesCount = 0, totalPipesCount = 0;
+    int innerPipesCount = 0, detectedPipesCount = 0, totalPipesCount = 0, adjustedPipeCont = 0;
+    Boolean isRemovedAdjust = false;
     Dialog inptDialog, viewMoreDialog, correctDataDialog;
     String dateNow = "", timeNow = "";
-    private String InsightPrefix = "PIPE";
     private String currentInsightName = "";
     DBHelper dbHelper;
     Bitmap bitmapOfPipes;
@@ -89,7 +89,7 @@ public class PipesDetection extends AppCompatActivity {
     String truck_no, specialNote;
     ListView pipeDataDialogList;
     String intentMode;
-    int finalAdjustedPipeCont;
+    int isRemovedAdjustFromDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +140,9 @@ public class PipesDetection extends AppCompatActivity {
             innerPipesCount = getIntent().getIntExtra("inner_pipes", 0);
             detectedPipesCount = getIntent().getIntExtra("detected_outer_pipes", 0);
             totalPipesCount = getIntent().getIntExtra("total_pipes", 0);
+            adjustedPipeCont = getIntent().getIntExtra("adjusted_pipes", 0);
+            isRemovedAdjustFromDB = getIntent().getIntExtra("isRemovedAdjust", 0);
+            isRemovedAdjust = (isRemovedAdjustFromDB == 0) ? true : false;
         }else{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 dateNow = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMMM, YYYY")).toString();
@@ -181,6 +184,7 @@ public class PipesDetection extends AppCompatActivity {
         ttlPipesCntDialogLbl = viewMoreDialog.findViewById(R.id.ttlPipeCountLbl);
         pipeDataDialogList = viewMoreDialog.findViewById(R.id.pipeDataDialogList);
         closeDtlDialogBtn = viewMoreDialog.findViewById(R.id.closeDtlDialogBtn);
+        adjustedPipeCountViewDialogLbl = viewMoreDialog.findViewById(R.id.adjustedPipeCountLbl);
 
         closeDtlDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,9 +232,10 @@ public class PipesDetection extends AppCompatActivity {
         saveCrctDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                totalPipesCount = finalAdjustedPipeCont;
-
                 totalPipesCountLbl.setText(String.valueOf(totalPipesCount));
+
+                String adjustStr = (isRemovedAdjust) ? " - " : " + ";
+                adjustedPipeCountViewDialogLbl.setText(adjustStr + String.valueOf(adjustedPipeCont));
 
                 saveThisPoint(getImageByte(bitmapOfPipes));
 
@@ -249,13 +254,15 @@ public class PipesDetection extends AppCompatActivity {
                     RadioButton checkedRadio = correctDataDialog.findViewById(checkedId);
                     checkedRadio.setChecked(false);
                 }else{
-                    int adjustPipeCount = Integer.parseInt(adjustPipeCountCrctDialogInpt.getText().toString());
+                    adjustedPipeCont = Integer.parseInt(adjustPipeCountCrctDialogInpt.getText().toString());
                     if(checkedId == R.id.addPipeCountRdo){
-                        finalAdjustedPipeCont = totalPipesCount + adjustPipeCount;
-                        finalAdjustedPipeCrctDialogLbl.setText(String.valueOf(finalAdjustedPipeCont));
+                        totalPipesCount += adjustedPipeCont;
+                        finalAdjustedPipeCrctDialogLbl.setText(String.valueOf(adjustedPipeCont));
+                        isRemovedAdjust = false;
                     }else{
-                        finalAdjustedPipeCont = totalPipesCount - adjustPipeCount;
-                        finalAdjustedPipeCrctDialogLbl.setText(String.valueOf(finalAdjustedPipeCont));
+                        totalPipesCount -= adjustedPipeCont;
+                        finalAdjustedPipeCrctDialogLbl.setText(String.valueOf(adjustedPipeCont));
+                        isRemovedAdjust = true;
                     }
                 }
             }
@@ -279,56 +286,62 @@ public class PipesDetection extends AppCompatActivity {
         retakeIntent = new Intent();
 
         // Taking image from intent data.
-        try{
-            Uri uri = getIntent().getParcelableExtra("pipes_uri");
-            Bitmap img = getIntent().getParcelableExtra("pipes_img");
-            if(img != null) {
-                isFromCapture = true;
-                launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult o) {
-                        if (o.getResultCode() == Activity.RESULT_OK) {
-                            Intent data = o.getData();
-                            Bitmap imgBitmap = (Bitmap) data.getExtras().get("data");
-                            setImageToView(imgBitmap);
-                            bitmapOfPipes = imgBitmap;
-
-                            // Re-Detect Image: Since Image Gets Changed.
-                            detectNStore();
-                        }
-                    }
-                });
-
-                retakeIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                setImageToView(img);
-                bitmapOfPipes = img;
-            } else if(uri != null) {
-                isFromCapture = false;
-                launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult o) {
-                        if (o.getResultCode() == Activity.RESULT_OK) {
-                            Intent data = o.getData();
-                            Uri uri = data.getData();
-                            setImageToView(uri);
-                            try {
-                                bitmapOfPipes = getBitMapImage(uri);
+        if(intentMode.equals("VIEW_MODE")){
+            String filePath = getIntent().getStringExtra("pipes_img").toString();
+            bitmapOfPipes = BitmapFactory.decodeFile(filePath);
+            imgView.setImageBitmap(bitmapOfPipes);
+        }else{
+            try{
+                Uri uri = getIntent().getParcelableExtra("pipes_uri");
+                Bitmap img = getIntent().getParcelableExtra("pipes_img");
+                if(img != null) {
+                    isFromCapture = true;
+                    launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult o) {
+                            if (o.getResultCode() == Activity.RESULT_OK) {
+                                Intent data = o.getData();
+                                Bitmap imgBitmap = (Bitmap) data.getExtras().get("data");
+                                setImageToView(imgBitmap);
+                                bitmapOfPipes = imgBitmap;
 
                                 // Re-Detect Image: Since Image Gets Changed.
                                 detectNStore();
-                            } catch (IOException e) {
-                                Toast.makeText(PipesDetection.this, "Something went wrong in IMAGE.", Toast.LENGTH_SHORT).show();;
                             }
                         }
-                    }
-                });
+                    });
 
-                retakeIntent.setAction(MediaStore.ACTION_PICK_IMAGES);
-                setImageToView(uri);
-                bitmapOfPipes = getBitMapImage(uri);
+                    retakeIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                    setImageToView(img);
+                    bitmapOfPipes = img;
+                } else if(uri != null) {
+                    isFromCapture = false;
+                    launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult o) {
+                            if (o.getResultCode() == Activity.RESULT_OK) {
+                                Intent data = o.getData();
+                                Uri uri = data.getData();
+                                setImageToView(uri);
+                                try {
+                                    bitmapOfPipes = getBitMapImage(uri);
+
+                                    // Re-Detect Image: Since Image Gets Changed.
+                                    detectNStore();
+                                } catch (IOException e) {
+                                    Toast.makeText(PipesDetection.this, "Something went wrong in IMAGE.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    });
+
+                    retakeIntent.setAction(MediaStore.ACTION_PICK_IMAGES);
+                    setImageToView(uri);
+                    bitmapOfPipes = getBitMapImage(uri);
+                }
+            }catch(Exception e){
+                Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
-        }catch(Exception e){
-            Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
         }
 
         // Recomputing again based on new image.
@@ -349,7 +362,7 @@ public class PipesDetection extends AppCompatActivity {
         }else{
             TextView retakeBtnText = findViewById(R.id.retakeBtnText);
             retakeBtnText.setText("History");
-            editInputPipesBtn.setVisibility(View.INVISIBLE);
+            editInputPipesBtn.setVisibility(View.GONE);
         }
     }
 
@@ -369,6 +382,9 @@ public class PipesDetection extends AppCompatActivity {
         outerPipesCntDialogLbl.setText(String.valueOf(detectedPipesCount));
         innerPipesCntDialogLbl.setText(String.valueOf(innerPipesCount));
         ttlPipesCntDialogLbl.setText(String.valueOf(totalPipesCount));
+
+        String adjustStr = (isRemovedAdjust) ? " - " : " + ";
+        adjustedPipeCountViewDialogLbl.setText(adjustStr + String.valueOf(adjustedPipeCont));
 
         // Set Input-Pipes-Specification to ListView
         setViewToList();
@@ -424,7 +440,7 @@ public class PipesDetection extends AppCompatActivity {
         detectedPipesCountLbl.setText(String.valueOf(detectedPipesCount) + " Outer Pipes");
 
         // Compute Total Pipes Count
-        totalPipesCount = (innerPipesCount == 0) ? detectedPipesCount : innerPipesCount * detectedPipesCount;
+        if(!intentMode.equals("VIEW_MODE")) totalPipesCount = (innerPipesCount == 0) ? detectedPipesCount : innerPipesCount * detectedPipesCount;
 
         // Show Total No. Of Pipes Count
         totalPipesCountLbl.setText(String.valueOf(totalPipesCount));
@@ -473,7 +489,8 @@ public class PipesDetection extends AppCompatActivity {
 
                             String base64Image = responseJson.get("image").toString();
                             byte[] imageByte = Base64.decode(base64Image, Base64.DEFAULT);
-                            imgView.setImageBitmap(getBitmapFromBlob(imageByte));
+                            bitmapOfPipes = getBitmapFromBlob(imageByte);
+                            imgView.setImageBitmap(bitmapOfPipes);
 
                             // Compute Total Pipes Count and Show to Labels
                             computePipeCountAndShow();
@@ -524,7 +541,7 @@ public class PipesDetection extends AppCompatActivity {
             Gson gson = new Gson();
             String pipeInputListRecord = gson.toJson(pipesList);
 
-            dbHelper.onPipesAnalyze(currentInsightName, imageData, dateNow, timeNow, innerPipesCount, totalPipesCount, detectedPipesCount, specialNote, pipeInputListRecord);
+            dbHelper.onPipesAnalyze(currentInsightName, imageData, dateNow, timeNow, innerPipesCount, totalPipesCount, detectedPipesCount, adjustedPipeCont, isRemovedAdjust, specialNote, pipeInputListRecord);
 
             Toast.makeText(this, "Saved Insights.", Toast.LENGTH_SHORT).show();
         }catch (Exception e){

@@ -108,7 +108,7 @@
             android:src="@drawable/pipes_truck_1" />
 
         <ImageButton
-            android:id="@+id/openBtn"
+            android:id="@+id/openRecentRecordDetectionViewBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

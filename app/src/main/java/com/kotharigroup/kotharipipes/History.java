@@ -6,6 +6,7 @@ import android.database.CursorWindow;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,6 +18,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +30,7 @@ public class History extends AppCompatActivity {
     DBHelper dbHelper;
     ListView insightRecordListView;
     List<Integer> pipesIdList;
+    File tempImageFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,26 +92,67 @@ public class History extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Sorry, Not Found!", Toast.LENGTH_SHORT).show();
                 }else{
                     iDetectionView.putExtra("truck_no", c.getString(1));
-                    iDetectionView.putExtra("pipes_img", getBitmapFromBlob(c.getBlob(2)));
+                    tempImageFile = saveToTemporary(getBitmapFromBlob(c.getBlob(2)));
+                    iDetectionView.putExtra("pipes_img", tempImageFile.getAbsolutePath().toString());
+                    iDetectionView.putExtra("pipes_img_temp_file", tempImageFile);
                     iDetectionView.putExtra("created_date", c.getString(3));
                     iDetectionView.putExtra("created_time", c.getString(4));
                     iDetectionView.putExtra("inner_pipes", c.getInt(5));
                     iDetectionView.putExtra("total_pipes", c.getInt(6));
                     iDetectionView.putExtra("detected_outer_pipes", c.getInt(7));
-                    iDetectionView.putExtra("extra_note", c.getString(8));
-                    iDetectionView.putExtra("pipes_datalist", c.getString(9));
+                    iDetectionView.putExtra("adjusted_pipes", c.getInt(8));
+                    iDetectionView.putExtra("isRemovedAdjust", c.getInt(9));
+                    iDetectionView.putExtra("extra_note", c.getString(10));
+                    iDetectionView.putExtra("pipes_datalist", c.getString(11));
 
                     iDetectionView.putExtra("MODE", "VIEW_MODE");
-                    startActivity(iDetectionView);
+
+                    if (tempImageFile == null){
+                        Toast.makeText(History.this, "Something went wrong, Please Try again later.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(History.this, "Please, Wait for few seconds.", Toast.LENGTH_SHORT).show();
+                        startActivity(iDetectionView);
+                    }
                 }
             }
         });
     }
 
+    @Override
+    protected void onResume() {
+        try{
+            tempImageFile.deleteOnExit();
+        }catch (Exception e){
+            Log.d("FILE_DELETION", "SOMETHING WENT WRONG IN FILE DELETION! " + e);
+        }
+        super.onResume();
+    }
+
+    protected File saveToTemporary(Bitmap imgBitmap){
+        // Save the bitmap to a temporary file
+        FileOutputStream fos = null;
+        File tempFile = null;
+        try {
+            tempFile = File.createTempFile("temp", ".png", getCacheDir());
+            fos = new FileOutputStream(tempFile);
+            imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return tempFile;
+    }
+
     protected Bitmap getBitmapFromBlob(byte[] blobData){
-        Bitmap bitMapImg = BitmapFactory.decodeByteArray(blobData, 0, blobData.length);
-        return bitMapImg;
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        return BitmapFactory.decodeByteArray(blobData, 0, blobData.length);
     }
 }

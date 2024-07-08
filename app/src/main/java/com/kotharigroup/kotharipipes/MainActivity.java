@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -33,6 +34,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collections;
 
@@ -48,12 +51,17 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     Button viewHistoryBtn, takePhotoBtn, chooseImgBtn;
-    ImageView homeSettingBtn;
+    ImageView homeSettingBtn, openRecentRecordDetectionViewBtn;
     TextView recordCountLbl, recentPipesCountLbl, dialogTitle;
     DBHelper dbHelper;
     Dialog defaultInnerPipesDialog;
     Button cancelDialogBtn, setInnerPipesCountDialogBtn;
     EditText inptDialog;
+
+    int recentRecordAdjustPipes, recentRecordIsRemovedAdjust;
+    int recentRecordInnerPipes, recentRecordOuterPipes, recentRecordTotalPipes;
+    String recentRecordCreatedDate, recentRecordCreatedTime, recentRecordNote, recentRecordTruckNo, recentRecordInnerPipeDataList;
+    File tempImageFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         viewHistoryBtn = findViewById(R.id.viewHistoryBtn);
         takePhotoBtn = findViewById(R.id.takePhotoBtn);
         chooseImgBtn = findViewById(R.id.chooseImageBtn);
+        openRecentRecordDetectionViewBtn = findViewById(R.id.openRecentRecordDetectionViewBtn);
 
         viewHistoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,6 +200,61 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        openRecentRecordDetectionViewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewDetectedRecordI = new Intent(getApplicationContext(), PipesDetection.class);
+
+                viewDetectedRecordI.putExtra("truck_no", recentRecordTruckNo);
+                viewDetectedRecordI.putExtra("pipes_img", tempImageFile.getAbsoluteFile().toString());
+                viewDetectedRecordI.putExtra("created_date", recentRecordCreatedDate);
+                viewDetectedRecordI.putExtra("created_time", recentRecordCreatedTime);
+                viewDetectedRecordI.putExtra("inner_pipes", recentRecordInnerPipes);
+                viewDetectedRecordI.putExtra("total_pipes", recentRecordTotalPipes);
+                viewDetectedRecordI.putExtra("detected_outer_pipes", recentRecordOuterPipes);
+                viewDetectedRecordI.putExtra("adjusted_pipes", recentRecordAdjustPipes);
+                viewDetectedRecordI.putExtra("isRemovedAdjust", recentRecordIsRemovedAdjust);
+                viewDetectedRecordI.putExtra("extra_note", recentRecordNote);
+                viewDetectedRecordI.putExtra("pipes_datalist", recentRecordInnerPipeDataList);
+
+                viewDetectedRecordI.putExtra("MODE", "VIEW_MODE");
+
+                Toast.makeText(getApplicationContext(), "Please, Wait for few seconds.", Toast.LENGTH_SHORT).show();
+
+                startActivity(viewDetectedRecordI);
+            }
+        });
+
+    }
+
+    protected Bitmap getBitmapFromBlob(byte[] blobData){
+        return BitmapFactory.decodeByteArray(blobData, 0, blobData.length);
+    }
+
+    protected File saveToTemporary(Bitmap imgBitmap){
+        // Save the bitmap to a temporary file
+        FileOutputStream fos = null;
+        File tempFile = null;
+        try {
+            tempFile = File.createTempFile("temp", ".png", getCacheDir());
+            fos = new FileOutputStream(tempFile);
+            imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+
+            return tempFile;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return tempFile;
     }
 
     protected void updateDashboard(){
@@ -230,12 +294,27 @@ public class MainActivity extends AppCompatActivity {
             if(c == null || !c.moveToFirst()){
                 return 0;
             }else{
-                return c.getInt(0);
+                recentRecordInnerPipes = c.getInt(5);
+                recentRecordOuterPipes = c.getInt(7);
+                recentRecordTotalPipes = c.getInt(6);
+
+                recentRecordAdjustPipes = c.getInt(8);
+                recentRecordIsRemovedAdjust = c.getInt(9);
+
+                recentRecordCreatedDate = c.getString(3);
+                recentRecordCreatedTime = c.getString(4);
+                recentRecordNote = c.getString(10);
+                recentRecordTruckNo = c.getString(1);
+                recentRecordInnerPipeDataList = c.getString(11);
+
+                tempImageFile = saveToTemporary(getBitmapFromBlob(c.getBlob(2)));
             }
         }catch (Exception e){
             Toast.makeText(this, "Sorry, Unable to fetch recent records.", Toast.LENGTH_SHORT).show();
             return 0;
         }
+
+        return recentRecordTotalPipes;
     }
 
 }
