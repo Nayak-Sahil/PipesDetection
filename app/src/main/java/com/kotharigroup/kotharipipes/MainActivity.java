@@ -51,13 +51,9 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     Button viewHistoryBtn, takePhotoBtn, chooseImgBtn;
-    ImageView homeSettingBtn, openRecentRecordDetectionViewBtn;
-    TextView recordCountLbl, recentPipesCountLbl, dialogTitle;
+    ImageView openRecentRecordDetectionViewBtn;
+    TextView recordCountLbl, recentPipesCountLbl;
     DBHelper dbHelper;
-    Dialog defaultInnerPipesDialog;
-    Button cancelDialogBtn, setInnerPipesCountDialogBtn;
-    EditText inptDialog;
-
     int recentRecordAdjustPipes, recentRecordIsRemovedAdjust;
     int recentRecordInnerPipes, recentRecordOuterPipes, recentRecordTotalPipes;
     String recentRecordCreatedDate, recentRecordCreatedTime, recentRecordNote, recentRecordTruckNo, recentRecordInnerPipeDataList;
@@ -79,61 +75,6 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        // Open Settings - Default_Inner_Pipes_Count Dialog
-        homeSettingBtn = findViewById(R.id.homeSettingBtn);
-
-        // Initialize Dialog
-        defaultInnerPipesDialog = new Dialog(MainActivity.this);
-
-        // Set Custome Dialog Layout
-        defaultInnerPipesDialog.setContentView(R.layout.dialog);
-
-        // Set layout
-        defaultInnerPipesDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        homeSettingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                defaultInnerPipesDialog.show();
-            }
-        });
-
-        // Dialog Action-Button Operation
-        cancelDialogBtn = defaultInnerPipesDialog.findViewById(R.id.cancelDialogBtn);
-        setInnerPipesCountDialogBtn = defaultInnerPipesDialog.findViewById(R.id.analyzeDialogBtn);
-        inptDialog = defaultInnerPipesDialog.findViewById(R.id.innerPipesInptDialog);
-        dialogTitle = defaultInnerPipesDialog.findViewById(R.id.dialogTitle);
-
-        // Set Dialog title
-        dialogTitle.setText("Default " + dialogTitle.getText());
-        cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                defaultInnerPipesDialog.dismiss();
-            }
-        });
-
-        setInnerPipesCountDialogBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Taking input from user.
-                int defaultInnerPipesCount = Integer.parseInt(inptDialog.getText().toString());
-
-                // making SharedPreference to store small amount of data in key-value pair.
-                SharedPreferences defaultPreferences = getApplicationContext().getSharedPreferences("User_Preferences", MODE_PRIVATE);
-                SharedPreferences.Editor editor = defaultPreferences.edit();
-
-                // put data in it.
-                editor.putInt("default_inner_pipes", defaultInnerPipesCount);
-
-                // save data in it.
-                editor.apply();
-
-                // close the dialog.
-                defaultInnerPipesDialog.dismiss();
-            }
-        });
-
 
         recentPipesCountLbl = findViewById(R.id.recentCountLbl);
         recordCountLbl = findViewById(R.id.recordCountLbl);
@@ -203,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
         openRecentRecordDetectionViewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(recentRecordTotalPipes == 0) return;
+                
                 Intent viewDetectedRecordI = new Intent(getApplicationContext(), PipesDetection.class);
 
                 viewDetectedRecordI.putExtra("truck_no", recentRecordTruckNo);
