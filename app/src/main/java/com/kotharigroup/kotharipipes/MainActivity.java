@@ -4,6 +4,7 @@ package com.kotharigroup.kotharipipes;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
     int recentRecordInnerPipes, recentRecordOuterPipes, recentRecordTotalPipes;
     String recentRecordCreatedDate, recentRecordCreatedTime, recentRecordNote, recentRecordTruckNo, recentRecordInnerPipeDataList;
     File tempImageFile;
+    Dialog errDialog;
+    ImageView errDialogCloseBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,15 +104,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 4. Error Dialog
+        errDialog = new Dialog(MainActivity.this);
+        errDialog.setContentView(R.layout.error_dialog);
+        errDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        errDialogCloseBtn = errDialog.findViewById(R.id.errDialogCloseBtn);
+        errDialogCloseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                errDialog.dismiss();
+            }
+        });
+
+
+        // 5. launcher action
         ActivityResultLauncher<Intent> takeImagelauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult o) {
                 if (o.getResultCode() == Activity.RESULT_OK) {
                     Intent data = o.getData();
                     Bitmap img = (Bitmap) data.getExtras().get("data");
-                    Intent detectionIntent = new Intent(getApplicationContext(), PreDetection.class);
-                    detectionIntent.putExtra("pipes_img", img);
-                    startActivity(detectionIntent);
+
+                    if(img != null && img.getByteCount() > 5242880){ // > 5 MB
+                        errDialog.show();
+                    }else{
+                        Intent detectionIntent = new Intent(getApplicationContext(), PreDetection.class);
+                        detectionIntent.putExtra("pipes_img", img);
+                        startActivity(detectionIntent);
+                    }
                 }
             }
         });
@@ -117,9 +142,16 @@ public class MainActivity extends AppCompatActivity {
             public void onActivityResult(ActivityResult o) {
                 if (o.getResultCode() == Activity.RESULT_OK) {
                     Intent data = o.getData();
-                    Intent detectionIntent = new Intent(getApplicationContext(), PreDetection.class);
-                    detectionIntent.putExtra("pipes_uri", data.getData());
-                    startActivity(detectionIntent);
+                    long imageSize = getImageSizeFromUri(getApplicationContext(), data.getData());
+
+                    if (imageSize == -1 || imageSize > 2097152) { // > 2 MB
+                        errDialog.show();
+                    }else{
+                        Intent detectionIntent = new Intent(getApplicationContext(), PreDetection.class);
+                        detectionIntent.putExtra("pipes_uri", data.getData());
+                        startActivity(detectionIntent);
+                    }
+
                 }
             }
         });
@@ -173,6 +205,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public long getImageSizeFromUri(Context context, Uri uri) {
+        long size = -1;
+        Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+
+        if (cursor != null) {
+            int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+            if (cursor.moveToFirst() && !cursor.isNull(sizeIndex)) {
+                size = cursor.getLong(sizeIndex);
+            }
+            cursor.close();
+        }
+
+        return size;
     }
 
     protected Bitmap getBitmapFromBlob(byte[] blobData){

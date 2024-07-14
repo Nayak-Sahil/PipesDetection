@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="20dp">
+
+    <RelativeLayout
+        android:id="@+id/dialogTitleLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/dialogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_dialog_name"
+            android:textStyle="bold"
+            android:textColor="@color/primary_text"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:id="@+id/errDialogCloseBtn"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/close_icon"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/dialogMainLayer"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/dialogTitleLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/errorImg"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:src="@drawable/filesizeerror"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/errorImg"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/warning"
+            android:lineHeight="25dp"
+            android:text="File Size is too heavy, please capture image by clicking on 'Take Photo'"
+            android:textAlignment="center"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
