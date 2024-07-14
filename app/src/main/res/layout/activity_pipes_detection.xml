@@ -8,6 +8,7 @@
     android:background="@color/white"
     tools:context=".PipesDetection">
 
+
     <LinearLayout
         android:id="@+id/activityTitle"
         android:layout_width="match_parent"
@@ -35,347 +36,383 @@
     </LinearLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/insightLayer"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
+
+
+
+
+    <ScrollView
         android:layout_marginTop="15dp"
         android:layout_below="@id/activityTitle"
-        android:layout_marginHorizontal="20dp"
-        android:background="@drawable/layoutborder">
-
-        <LinearLayout
-            android:id="@+id/reTakeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_badge"
-            android:orientation="horizontal"
-            android:paddingVertical="10dp"
-            android:paddingHorizontal="18dp"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/focus_img" />
-
-            <TextView
-                android:id="@+id/retakeBtnText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary_text"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:text="Retake"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_above="@id/totalPipesCountLbl"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="Total Pipes Found"
-                android:textSize="13sp"
-                android:textColor="@color/secondary"
-                android:layout_centerVertical="true"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/totalPipesCountLbl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="-10dp"
-            android:layout_alignParentBottom="true"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_alignParentRight="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_alignParentRight="true">
-
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/truck_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginRight="3dp"
-                    android:text="Truck No: "
-                    android:textSize="12sp"
-                    android:textColor="@color/primary_text"
-                    android:layout_centerVertical="true"/>
-
-                <TextView
-                    android:id="@+id/curnInsightNameLbl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text=""
-                    android:textSize="12sp"
-                    android:textColor="@color/secondary_text"
-                    android:layout_centerVertical="true"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_alignParentRight="true">
-
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/calendar_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginRight="3dp"
-                    android:text="Data: "
-                    android:textSize="12sp"
-                    android:textColor="@color/primary_text"
-                    android:layout_centerVertical="true"/>
-
-                <TextView
-                    android:id="@+id/insightDateLbl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="-"
-                    android:textSize="12sp"
-                    android:textColor="@color/secondary_text"
-                    android:layout_centerVertical="true"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_alignParentRight="true">
-
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/clock_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginRight="3dp"
-                    android:text="Time: "
-                    android:textSize="12sp"
-                    android:textColor="@color/primary_text"
-                    android:layout_centerVertical="true"/>
-
-                <TextView
-                    android:id="@+id/insightTimeLbl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="-"
-                    android:textSize="12sp"
-                    android:textColor="@color/secondary_text"
-                    android:layout_centerVertical="true"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_alignParentRight="true">
-
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/inner_pipes" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="Inner Pipes:"
-                    android:textSize="12sp"
-                    android:layout_marginRight="3dp"
-                    android:textColor="@color/primary_text"
-                    android:layout_centerVertical="true"/>
-
-                <TextView
-                    android:id="@+id/innerPipesCountLbl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="0"
-                    android:textSize="12sp"
-                    android:textColor="@color/secondary_text"
-                    android:layout_centerVertical="true"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_alignParentRight="true">
-
-                <LinearLayout
-                    android:id="@+id/viewMoreBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/viewmore_icon" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:text="View More"
-                        android:textSize="12sp"
-                        android:layout_marginRight="4dp"
-                        android:textColor="@color/secondary"
-                        android:layout_centerVertical="true"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/editInputPipesBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_gravity="right|center"
-                        android:src="@drawable/note_pen_icon" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:text="Change"
-                        android:textSize="12sp"
-                        android:layout_marginRight="4dp"
-                        android:textColor="@color/secondary"
-                        android:layout_centerVertical="true"/>
-
-                </LinearLayout>
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-
-    <LinearLayout
-        android:visibility="invisible"
-        android:id="@+id/correctDetectionBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_warning"
-        android:orientation="horizontal"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="18dp"
-        android:layout_alignRight="@id/detectedImgLayer"
-        android:layout_above="@id/detectedImgLayer"
-        android:layout_marginBottom="-15dp"
-        android:layout_marginRight="15dp"
-        android:translationZ="5dp"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/warning"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:text="Wrong?"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/success_badge"
-        android:orientation="horizontal"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="18dp"
-        android:layout_alignLeft="@id/detectedImgLayer"
-        android:layout_above="@id/detectedImgLayer"
-        android:layout_marginBottom="-15dp"
-        android:layout_marginLeft="15dp"
-        android:translationZ="5dp"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/sparkles" />
-
-        <TextView
-            android:id="@+id/detectedPipesCountLbl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/secondary"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:text="0 Outer Pipes"/>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/detectedImgLayer"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginHorizontal="20dp"
-        android:paddingTop="40dp"
-        android:background="@drawable/layoutborder">
+        android:layout_height="match_parent">
 
-        <ImageView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/imgView"/>
+            android:layout_height="match_parent">
 
-    </RelativeLayout>
+            <HorizontalScrollView
+                android:id="@+id/insightLayer"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/layoutborder"
+                android:layout_height="200dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:id="@+id/reTakeBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_badge"
+                            android:orientation="horizontal"
+                            android:paddingVertical="10dp"
+                            android:paddingHorizontal="18dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginRight="5dp"
+                                android:src="@drawable/focus_img" />
+
+                            <TextView
+                                android:id="@+id/retakeBtnText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/primary_text"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:text="Retake"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_above="@id/totalPipesCountLbl">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:text="Total Pipes Found"
+                                android:textSize="13sp"
+                                android:textColor="@color/secondary"
+                                android:layout_centerVertical="true"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/totalPipesCountLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="40sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="-10dp"
+                            android:layout_alignParentBottom="true"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginLeft="30dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_alignParentRight="true">
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_marginRight="5dp"
+                                android:src="@drawable/truck_icon" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:layout_marginRight="3dp"
+                                android:text="Truck No: "
+                                android:textSize="12sp"
+                                android:textColor="@color/primary_text"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/curnInsightNameLbl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:text=""
+                                android:textSize="12sp"
+                                android:textColor="@color/secondary_text"
+                                android:layout_centerVertical="true"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:layout_alignParentRight="true">
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_marginRight="5dp"
+                                android:src="@drawable/calendar_icon" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:layout_marginRight="3dp"
+                                android:text="Data: "
+                                android:textSize="12sp"
+                                android:textColor="@color/primary_text"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/insightDateLbl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:text="-"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondary_text"
+                                android:layout_centerVertical="true"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_alignParentRight="true">
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_marginRight="5dp"
+                                android:src="@drawable/clock_icon" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:layout_marginRight="3dp"
+                                android:text="Time: "
+                                android:textSize="12sp"
+                                android:textColor="@color/primary_text"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/insightTimeLbl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:text="-"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondary_text"
+                                android:layout_centerVertical="true"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_alignParentRight="true">
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_marginRight="5dp"
+                                android:src="@drawable/inner_pipes" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:text="Inner Pipes:"
+                                android:textSize="12sp"
+                                android:layout_marginRight="3dp"
+                                android:textColor="@color/primary_text"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:id="@+id/innerPipesCountLbl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:text="0"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondary_text"
+                                android:layout_centerVertical="true"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_alignParentRight="true">
+
+                            <LinearLayout
+                                android:id="@+id/viewMoreBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:gravity="center_vertical">
+
+                                <ImageView
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
+                                    android:layout_marginRight="5dp"
+                                    android:src="@drawable/viewmore_icon" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textStyle="bold"
+                                    android:text="View More"
+                                    android:textSize="12sp"
+                                    android:layout_marginRight="4dp"
+                                    android:textColor="@color/secondary"
+                                    android:layout_centerVertical="true"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/editInputPipesBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical">
+
+                                <ImageView
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_gravity="right|center"
+                                    android:src="@drawable/note_pen_icon" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textStyle="bold"
+                                    android:text="Change"
+                                    android:textSize="12sp"
+                                    android:layout_marginRight="4dp"
+                                    android:textColor="@color/secondary"
+                                    android:layout_centerVertical="true"/>
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/insightLayer"
+                android:layout_width="match_parent"
+                android:layout_height="450dp">
+
+                <LinearLayout
+                    android:visibility="invisible"
+                    android:id="@+id/correctDetectionBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_warning"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="18dp"
+                    android:layout_alignRight="@id/detectedImgLayer"
+                    android:layout_above="@id/detectedImgLayer"
+                    android:layout_marginBottom="-20dp"
+                    android:layout_marginRight="15dp"
+                    android:translationZ="5dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/warning"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:text="Wrong?"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/success_badge"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="18dp"
+                    android:layout_alignLeft="@id/detectedImgLayer"
+                    android:layout_above="@id/detectedImgLayer"
+                    android:layout_marginBottom="-20dp"
+                    android:layout_marginLeft="15dp"
+                    android:translationZ="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/sparkles" />
+
+                    <TextView
+                        android:id="@+id/detectedPipesCountLbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:text="0 Outer Pipes"/>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/detectedImgLayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginHorizontal="20dp"
+                    android:paddingTop="40dp"
+                    android:background="@drawable/layoutborder">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/imgView"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
 
 </RelativeLayout>
