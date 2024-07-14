@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     TextView recordCountLbl, recentPipesCountLbl;
     DBHelper dbHelper;
     int recentRecordAdjustPipes, recentRecordIsRemovedAdjust;
-    int recentRecordInnerPipes, recentRecordOuterPipes, recentRecordTotalPipes;
+    int recentRecordInnerPipes, recentRecordOuterPipes, recentRecordTotalPipes = -1;
     String recentRecordCreatedDate, recentRecordCreatedTime, recentRecordNote, recentRecordTruckNo, recentRecordInnerPipeDataList;
     File tempImageFile;
     Dialog errDialog;
@@ -181,7 +181,10 @@ public class MainActivity extends AppCompatActivity {
         openRecentRecordDetectionViewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(recentRecordTotalPipes == 0) return;
+                if(recentRecordTotalPipes == -1){
+                    Toast.makeText(MainActivity.this, "No Record Found!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 
                 Intent viewDetectedRecordI = new Intent(getApplicationContext(), PipesDetection.class);
 
