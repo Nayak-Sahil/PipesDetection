@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.ContextMenu;
@@ -136,7 +137,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent cameraI = new Intent();
-                cameraI.setAction(MediaStore.ACTION_PICK_IMAGES);
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                    cameraI.setAction(MediaStore.ACTION_PICK_IMAGES);
+                }else{
+                    cameraI.setAction(Intent.ACTION_PICK);
+                }
                 chooseImageLauncher.launch(cameraI);
             }
         });
