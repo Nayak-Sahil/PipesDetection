@@ -343,7 +343,11 @@ public class PipesDetection extends AppCompatActivity {
                         }
                     });
 
-                    retakeIntent.setAction(MediaStore.ACTION_PICK_IMAGES);
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                        retakeIntent.setAction(MediaStore.ACTION_PICK_IMAGES);
+                    }else{
+                        retakeIntent.setAction(Intent.ACTION_PICK);
+                    }
                     setImageToView(uri);
                     bitmapOfPipes = getBitMapImage(uri);
                 }
@@ -448,7 +452,15 @@ public class PipesDetection extends AppCompatActivity {
         detectedPipesCountLbl.setText(String.valueOf(detectedPipesCount) + " Outer Pipes");
 
         // Compute Total Pipes Count
-        if(!intentMode.equals("VIEW_MODE")) totalPipesCount = (innerPipesCount == 0) ? detectedPipesCount : innerPipesCount * detectedPipesCount;
+        if(!intentMode.equals("VIEW_MODE")){
+            if(innerPipesCount == 0){
+                totalPipesCount = detectedPipesCount;
+            }else if(innerPipesCount == 1){
+                totalPipesCount = detectedPipesCount + detectedPipesCount;
+            }else{
+                totalPipesCount = innerPipesCount * detectedPipesCount;
+            }
+        }
 
         // Show Total No. Of Pipes Count
         totalPipesCountLbl.setText(String.valueOf(totalPipesCount));
