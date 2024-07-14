@@ -47,6 +47,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.Buffer;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -61,6 +62,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okio.BufferedSink;
 
 public class PipesDetection extends AppCompatActivity {
 
@@ -113,6 +115,12 @@ public class PipesDetection extends AppCompatActivity {
 
         // Initialize HttpConnection
         client = new OkHttpClient();
+        /**
+         * // For log: Request Body
+         * OkHttpClient client = new OkHttpClient.Builder()
+         *         .addInterceptor(new LoggingInterceptor())
+         *         .build();
+         */
 
         // Establish DB Connection
         dbHelper = new DBHelper(getApplicationContext(), null, null, 1);
@@ -361,7 +369,7 @@ public class PipesDetection extends AppCompatActivity {
             detectNStore();
         }else{
             TextView retakeBtnText = findViewById(R.id.retakeBtnText);
-            retakeBtnText.setText("History");
+            retakeBtnText.setText("Back");
             editInputPipesBtn.setVisibility(View.GONE);
         }
     }
@@ -452,12 +460,11 @@ public class PipesDetection extends AppCompatActivity {
         imgView.setImageBitmap(img);
     }
 
-    protected void postRequest(byte[] imageData){
+    protected void postRequest(byte[] imageData) {
         Toast.makeText(this, "Processing Your Image...", Toast.LENGTH_SHORT).show();
-        RequestBody reqBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("image", "image.png", RequestBody.create(MediaType.parse("image/png"), imageData))
-                .build();
+
+        // Custome Content-Type Set "image/jpg" (*Not "Image/Jpeg")
+        RequestBody reqBody = RequestBody.create(MediaType.parse("image/jpg"), imageData);
 
         Request request = new Request.Builder()
                 .url(getResources().getString(R.string.DETECTION_POST_URL))
@@ -518,6 +525,7 @@ public class PipesDetection extends AppCompatActivity {
         });
 
     }
+
 
     protected Bitmap getBitmapFromBlob(byte[] blobData){
         return BitmapFactory.decodeByteArray(blobData, 0, blobData.length);
