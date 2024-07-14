@@ -76,6 +76,7 @@ public class PreDetection extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isValidMeasure()){
+                    if(pipesList == null) pipesList = new ArrayList<>();
                     Map<String, String> map = new HashMap<>();
 
                     String pipeSize = pipeSizeInpt.getText().toString();
