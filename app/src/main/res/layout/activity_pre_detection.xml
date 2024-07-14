@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="@string/metadata_activity_name"
             android:textStyle="bold"
-            android:textColor="@color/secondary"
+            android:textColor="@color/primary_text"
             android:textSize="20sp"/>
 
     </LinearLayout>
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="Copy from last record"
             android:textStyle="bold"
-            android:textColor="@color/primary_text"/>
+            android:textColor="@color/secondary"/>
 
     </LinearLayout>
 
@@ -182,13 +182,14 @@
                     android:text="Pipes Details"
                     android:textColor="@color/secondary"
                     android:textStyle="bold"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="15dp"/>
 
                 <RelativeLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp">
+                    android:layout_height="wrap_content">
                     <LinearLayout
+                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical">
@@ -225,9 +226,10 @@
                 <RelativeLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical">
@@ -301,7 +303,7 @@
                 <ListView
                     android:id="@+id/pipeDataListView"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp" />
+                    android:layout_height="150dp" />
 
             </LinearLayout>
 
@@ -310,6 +312,7 @@
 
 
     <RelativeLayout
+        android:background="@color/white"
         android:layout_marginHorizontal="20dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
